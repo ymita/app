@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using App.Areas.User.Models;
 using App.Data;
 using App.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
