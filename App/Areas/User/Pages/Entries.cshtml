@@ -2,11 +2,20 @@
 @model App.Areas.User.Pages.EntriesModel
 @{
 }
-entries
+<p>entries</p>
 
-@for (var i = 0; i < Model.Posts.Count; i++)
-{
-    var post = Model.Posts[i];
-    <text>Title: @post.Title</text>
-    <text>Title: @post.Description</text>
+@{
+    if (Model.Posts == null)
+    {
+        <p>ポストはありません。</p>
+    }
+    else
+    {
+        for (var i = 0; i < Model.Posts.Count; i++)
+        {
+            var post = Model.Posts[i];
+            <text>Title: @post.Title</text>
+            <text>Title: @post.Description</text>
+        }
+    }
 }

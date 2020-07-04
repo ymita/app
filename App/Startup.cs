@@ -12,6 +12,7 @@ using App.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using App.Repositories;
 
 namespace App
 {
@@ -40,6 +41,9 @@ namespace App
                     Configuration.GetConnectionString("AppDbConnection")));
 
             services.AddRazorPages();
+
+            services.AddScoped<IAppRepository, AppRepository>();
+            services.AddScoped<IIdentityRepository, IdentityRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
