@@ -44,6 +44,7 @@ namespace App
 
             services.AddScoped<IAppRepository, AppRepository>();
             services.AddScoped<IIdentityRepository, IdentityRepository>();
+            services.AddScoped<IAppDbContext, AppDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

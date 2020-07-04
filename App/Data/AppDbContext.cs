@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : DbContext, IAppDbContext
     {
         public AppDbContext()
         {

@@ -10,11 +10,11 @@ namespace App.Repositories
 {
     public class AppRepository : IAppRepository
     {
-        public AppDbContext _appDbContext { get; set; }
+        public IAppDbContext _appDbContext { get; set; }
         public IIdentityRepository _identityRepository { get; set; }
 
 
-        public AppRepository(AppDbContext appDbContext, IIdentityRepository identityRepository)
+        public AppRepository(IAppDbContext appDbContext, IIdentityRepository identityRepository)
         {
             this._appDbContext = appDbContext;
             this._identityRepository = identityRepository;
