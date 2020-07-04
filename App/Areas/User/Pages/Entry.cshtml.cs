@@ -9,7 +9,7 @@ namespace App.Areas.User.Pages
 {
     public class EntryModel : PageModel
     {
-        public void OnGet()
+        public void OnGet(string userName = null, int? id = null)
         {
         }
     }

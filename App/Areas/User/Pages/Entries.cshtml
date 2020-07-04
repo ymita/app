@@ -3,3 +3,10 @@
 @{
 }
 entries
+
+@for (var i = 0; i < Model.Posts.Count; i++)
+{
+    var post = Model.Posts[i];
+    <text>Title: @post.Title</text>
+    <text>Title: @post.Description</text>
+}
