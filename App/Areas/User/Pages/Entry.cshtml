@@ -1,5 +1,22 @@
-﻿@page "/{userName}/entries/{id}"
+﻿@page "/{userName}/posts/{postId}"
 @model App.Areas.User.Pages.EntryModel
 @{
 }
 entry
+
+@{
+    if (Model.Post == null)
+    {
+        <p>ポストはありません。</p>
+    }
+    else
+    {
+        var post = Model.Post;
+        <h4>@post.Title</h4>
+
+        <div>
+            @post.Description
+        </div>
+
+    }
+}

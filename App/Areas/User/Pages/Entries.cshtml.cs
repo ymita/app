@@ -17,6 +17,8 @@ namespace App.Areas.User.Pages
 
         public List<Post> Posts { get; set; }
 
+        public string UserName { get; set; }
+
         public EntriesModel(IAppRepository appRepository)
         {
             this._appRepository = appRepository;
@@ -29,6 +31,7 @@ namespace App.Areas.User.Pages
                 return;
             }
 
+            this.UserName = userName;
             this.Posts = this._appRepository.getPostsByUser(userName);
         }
     }

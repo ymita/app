@@ -1,4 +1,4 @@
-﻿@page "/{userName}/entries"
+﻿@page "/{userName}/posts"
 @model App.Areas.User.Pages.EntriesModel
 @{
 }
@@ -14,8 +14,12 @@
         for (var i = 0; i < Model.Posts.Count; i++)
         {
             var post = Model.Posts[i];
-            <text>Title: @post.Title</text>
-            <text>Title: @post.Description</text>
+            <h4><a href="/@Model.UserName/posts/@post.PostId">@post.Title</a></h4>
+
+            <div>
+                @(post.Description.Substring(0, 10) + "...")
+            </div>
+
         }
     }
 }
