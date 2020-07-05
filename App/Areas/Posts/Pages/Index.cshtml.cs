@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using App.Models;
-using App.Data;
 using App.Repositories;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace App.Areas.User.Pages
+namespace App.Areas.Posts.Pages
 {
-    public class EntriesModel : PageModel
+    public class IndexModel : PageModel
     {
         public IAppRepository _appRepository { get; set; }
 
@@ -19,12 +17,12 @@ namespace App.Areas.User.Pages
 
         public string UserName { get; set; }
 
-        public EntriesModel(IAppRepository appRepository)
+        public IndexModel(IAppRepository appRepository)
         {
             this._appRepository = appRepository;
         }
 
-        public void OnGet(string userName)
+        public void OnGet(string userName = "test@test.com")
         {
             if (string.IsNullOrEmpty(userName))
             {

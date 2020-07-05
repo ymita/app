@@ -1,4 +1,4 @@
-﻿using App.Areas.User.Models;
+﻿using App.Models;
 using System;
 using System.Collections.Generic;
 

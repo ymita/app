@@ -1,0 +1,9 @@
+﻿@page "/Dashboard/Configuration"
+@model App.Areas.Dashboard.Pages.ConfigurationModel
+@{
+    Layout = "_Layout.cshtml";
+    var title = this.Path.Split("/").Last().Replace(".cshtml", "");
+    ViewData["Title"] = title;
+    ViewData["ActivePage"] = title.ToLower();
+}
+Configuration page is here...

@@ -1,4 +1,4 @@
-﻿using App.Areas.User.Models;
+﻿using App.Models;
 using App.Data;
 using Microsoft.EntityFrameworkCore;
 using System;

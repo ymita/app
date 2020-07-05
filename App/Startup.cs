@@ -45,6 +45,11 @@ namespace App
             services.AddScoped<IAppRepository, AppRepository>();
             services.AddScoped<IIdentityRepository, IdentityRepository>();
             services.AddScoped<IAppDbContext, AppDbContext>();
+
+            //services.Configure<IdentityOptions>(options =>
+            //{
+            //    options.SignIn.RequireConfirmedEmail = true;
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
