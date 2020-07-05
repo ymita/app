@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace App.Areas.Dashboard.Pages
+namespace App.Areas.Dashboard.Pages.Configuration
 {
-    public class CommentsModel : PageModel
+    public class IndexModel : PageModel
     {
         public void OnGet()
         {

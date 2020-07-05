@@ -1,9 +1,0 @@
-﻿@page "/Dashboard/Comments"
-@model App.Areas.Dashboard.Pages.CommentsModel
-@{
-    Layout = "_Layout.cshtml";
-    var title = this.Path.Split("/").Last().Replace(".cshtml", "");
-    ViewData["Title"] = title;
-    ViewData["ActivePage"] = title.ToLower();
-}
-Here is the comment page.
