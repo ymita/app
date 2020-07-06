@@ -1,13 +1,12 @@
 ﻿@{
-    //Layout = "/Pages/Shared/_Layout.cshtml";
     Layout = "_DashboardLayout.cshtml";
-    var activePage = ViewData["ActivePage"] as String;
+    var feature = this.Url.ActionContext.ActionDescriptor.DisplayName.Split("/")[1].ToLower();
 
     string PostsActive = "";
     string CommentsActive = "";
     string ConfigurationActive = "";
 
-    switch (activePage)
+    switch (feature)
     {
         case "posts":
             PostsActive = "active";
@@ -23,13 +22,14 @@
     }
 
 }
-<h1>Dashboard</h1>
 
 <div>
-    <hr />
     <div class="row">
         <div class="col-md-3">
             <ul class="nav nav-pills flex-column">
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" style="font-size: x-large; color: #000;">Dashboard</a>
+                </li>
                 <li class="nav-item"><a id="posts" class="nav-link @PostsActive" href="/Dashboard/Posts">投稿一覧</a></li>
                 <li class="nav-item"><a id="comments" class="nav-link @CommentsActive" href="/Dashboard/Comments">コメント</a></li>
                 <li class="nav-item"><a id="configuration" class="nav-link @ConfigurationActive" href="/Dashboard/Configuration">設定</a></li>
