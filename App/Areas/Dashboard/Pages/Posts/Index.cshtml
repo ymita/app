@@ -4,9 +4,13 @@
 @{
     ViewData["Title"] = "Index";
 }
-
+    <script>
+        function test() {
+            document.location.href = "/Dashboard/Posts/Create";
+        }
+    </script>
 <p>
-    <a asp-page="Create">Create New</a>
+    <button class="btn btn-primary" onclick="test()">新規作成</button>
 </p>
 <table class="table">
     <thead>
