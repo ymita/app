@@ -10,6 +10,7 @@ namespace App.Pages
 {
     public class IndexModel : PageModel
     {
+        public string Name { get; set; }
         private readonly ILogger<IndexModel> _logger;
 
         public IndexModel(ILogger<IndexModel> logger)
