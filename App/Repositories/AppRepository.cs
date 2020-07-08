@@ -34,9 +34,9 @@ namespace App.Repositories
             return posts;
         }
 
-        public Post getPost(Guid postId)
+        public Post getPost(int id)
         {
-            var post = this._appDbContext.Posts.Where(p => p.PostId == postId).FirstOrDefault();
+            var post = this._appDbContext.Posts.Where(p => p.Id == id).FirstOrDefault();
             return post;
         }
     }

@@ -15,7 +15,5 @@ namespace App.Models
         public DateTime PublishedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public string OwnerId { get; set; }
-
-        public Guid PostId { get; set; }
     }
 }

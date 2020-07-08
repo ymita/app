@@ -8,6 +8,6 @@ namespace App.Repositories
     {
         List<Post> getPostsByUser(string userName);
 
-        Post getPost(Guid postId);
+        Post getPost(int id);
     }
 }
