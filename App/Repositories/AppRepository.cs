@@ -20,6 +20,11 @@ namespace App.Repositories
             this._identityRepository = identityRepository;
         }
 
+        //public async Task<List<Post>> GetPosts(string userName)
+        //{
+        //    return await this._appDbContext.Posts.ToListAsync();
+        //}
+
         public List<Post> getPostsByUser(string userName)
         {
             List<Post> posts = null;
