@@ -8,29 +8,33 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using App.Data;
 using App.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace App.Areas.Dashboard.Pages.Posts
 {
     public class EditModel : PageModel
     {
         private readonly App.Data.AppDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public EditModel(App.Data.AppDbContext context)
+        public EditModel(App.Data.AppDbContext context,
+            UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         [BindProperty]
         public Post Post { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public IActionResult OnGet(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            Post = await _context.Posts.FirstOrDefaultAsync(m => m.Id == id);
+            Post = _context.Posts.FirstOrDefault(m => m.Id == id);
 
             if (Post == null)
             {
@@ -41,8 +45,11 @@ namespace App.Areas.Dashboard.Pages.Posts
 
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public IActionResult OnPost(Post post)
         {
+            var userId = _userManager.GetUserId(User);
+            this.Post.OwnerId = userId;
+
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -52,7 +59,7 @@ namespace App.Areas.Dashboard.Pages.Posts
 
             try
             {
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {

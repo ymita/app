@@ -24,9 +24,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Post[0].PublishedDate)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Post[0].UpdatedDate)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -43,10 +40,7 @@
                 @Html.DisplayFor(modelItem => item.PublishedDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.UpdatedDate)
-            </td>
-            <td>
-                <a asp-page="./Posts/Edit" asp-route-id="@item.Id">編集</a>
+                <a href="/Dashboard/posts/@item.Id">編集</a>
             </td>
         </tr>
 }

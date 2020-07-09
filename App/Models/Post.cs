@@ -13,7 +13,6 @@ namespace App.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime PublishedDate { get; set; }
-        public DateTime? UpdatedDate { get; set; }
         public string OwnerId { get; set; }
     }
 }
