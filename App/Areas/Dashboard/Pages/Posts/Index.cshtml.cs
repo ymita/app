@@ -30,7 +30,9 @@ namespace App.Areas.Dashboard.Pages.Posts
 
         public async Task OnGetAsync()
         {
-            Posts = await _context.Posts.ToListAsync();
+            var userId = _userManager.GetUserId(User);
+
+            Posts = await _context.Posts.Where(p => p.OwnerId == userId).ToListAsync();
         }
 
 
