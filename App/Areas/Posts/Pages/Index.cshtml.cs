@@ -22,7 +22,7 @@ namespace App.Areas.Posts.Pages
             this._appRepository = appRepository;
         }
 
-        public void OnGet(string userName/* = "test@test.com"*/)
+        public void OnGet(string userName)
         {
             if (string.IsNullOrEmpty(userName))
             {

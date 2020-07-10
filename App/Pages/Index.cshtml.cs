@@ -30,7 +30,6 @@ namespace App.Pages
 
         public void OnGet()
         {
-            //_identityRepository.getUserNameById(User.Identity.)
             Posts = _appRepository.getAllPosts();
             for(int i = 0; i < Posts.Count; i++)
             {
