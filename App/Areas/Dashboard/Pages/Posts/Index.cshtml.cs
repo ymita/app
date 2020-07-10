@@ -30,9 +30,7 @@ namespace App.Areas.Dashboard.Pages.Posts
 
         public async Task OnGetAsync()
         {
-            var userId = _userManager.GetUserId(User);
-
-            Posts = await _context.Posts.Where(p => p.OwnerId == userId).ToListAsync();
+            Posts = Posts = await this.GetPostsByCurrentUser();
         }
 
 
@@ -46,7 +44,13 @@ namespace App.Areas.Dashboard.Pages.Posts
                 _context.Posts.Remove(post);
                 await _context.SaveChangesAsync();
             }
-            Posts = await _context.Posts.ToListAsync();
+            Posts = await this.GetPostsByCurrentUser();
+        }
+
+        private async Task<List<Post>> GetPostsByCurrentUser()
+        {
+            var userId = _userManager.GetUserId(User);
+            return await _context.Posts.Where(p => p.OwnerId == userId).ToListAsync();
         }
     }
 }
