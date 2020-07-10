@@ -44,5 +44,11 @@ namespace App.Repositories
             var post = this._appDbContext.Posts.Where(p => p.Id == id).FirstOrDefault();
             return post;
         }
+
+        public List<Post> getAllPosts()
+        {
+            var posts = this._appDbContext.Posts.ToList();
+            return posts;
+        }
     }
 }

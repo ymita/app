@@ -9,5 +9,7 @@ namespace App.Repositories
     public interface IIdentityRepository
     {
         IdentityUser getUserByName(string userName);
+
+        string getUserNameById(string userId);
     }
 }

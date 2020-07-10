@@ -9,5 +9,7 @@ namespace App.Repositories
         List<Post> getPostsByUser(string userName);
 
         Post getPost(int id);
+
+        List<Post> getAllPosts();
     }
 }

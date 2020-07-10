@@ -26,5 +26,14 @@ namespace App.Repositories
             var user = this._identityDbContext.Users.Where(x => x.UserName == userName).FirstOrDefault();
             return user;
         }
+
+        public string getUserNameById(string userId)
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new InvalidOperationException("User name is not provided");
+            }
+            return this._identityDbContext.Users.Find(userId).UserName;
+        }
     }
 }
