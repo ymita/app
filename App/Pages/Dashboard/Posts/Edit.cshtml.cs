@@ -8,33 +8,29 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using App.Data;
 using App.Models;
-using Microsoft.AspNetCore.Identity;
 
-namespace App.Areas.Dashboard.Pages.Posts
+namespace App.Pages.Dashboard.Posts
 {
     public class EditModel : PageModel
     {
         private readonly App.Data.AppDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
 
-        public EditModel(App.Data.AppDbContext context,
-            UserManager<IdentityUser> userManager)
+        public EditModel(App.Data.AppDbContext context)
         {
             _context = context;
-            _userManager = userManager;
         }
 
         [BindProperty]
         public Post Post { get; set; }
 
-        public IActionResult OnGet(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            Post = _context.Posts.FirstOrDefault(m => m.Id == id);
+            Post = await _context.Posts.FirstOrDefaultAsync(m => m.Id == id);
 
             if (Post == null)
             {
@@ -45,12 +41,14 @@ namespace App.Areas.Dashboard.Pages.Posts
 
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-        public IActionResult OnPost(Post post)
+        public async Task<IActionResult> OnPostAsync()
         {
-            var userId = _userManager.GetUserId(User);
-            this.Post.OwnerId = userId;
-
             if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            if (Post == null)
             {
                 return Page();
             }
@@ -59,7 +57,7 @@ namespace App.Areas.Dashboard.Pages.Posts
 
             try
             {
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {

@@ -2,33 +2,26 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>aspnet-App-FD1855E2-0B73-4AAF-B332-AF075FB450B2</UserSecretsId>
-    <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
+    <UserSecretsId>aspnet-App-826362D2-3430-410E-B5E4-FBD4CBB6AECB</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Areas\Dashboard\Pages\Comments.cshtml.cs" />
-    <Compile Remove="Areas\Dashboard\Pages\Configuration.cshtml.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="Areas\Dashboard\Pages\Comments.cshtml" />
-    <Content Remove="Areas\Dashboard\Pages\Configuration.cshtml" />
+    <Compile Remove="Data\ApplicationDbContext.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.5" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.5" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.5" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0-preview1.19506.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0-preview1-19509-03" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Dashboard\Models\" />
+    <Folder Include="Repositories\" />
   </ItemGroup>
 
 </Project>

@@ -8,18 +8,17 @@ using Microsoft.EntityFrameworkCore;
 using App.Data;
 using App.Models;
 
-namespace App.Areas.Dashboard.Pages.Posts
+namespace App.Pages.Dashboard.Posts
 {
-    public class DeleteModel : PageModel
+    public class DetailsModel : PageModel
     {
         private readonly App.Data.AppDbContext _context;
 
-        public DeleteModel(App.Data.AppDbContext context)
+        public DetailsModel(App.Data.AppDbContext context)
         {
             _context = context;
         }
 
-        [BindProperty]
         public Post Post { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -36,24 +35,6 @@ namespace App.Areas.Dashboard.Pages.Posts
                 return NotFound();
             }
             return Page();
-        }
-
-        public async Task<IActionResult> OnPostAsync(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            Post = await _context.Posts.FindAsync(id);
-
-            if (Post != null)
-            {
-                _context.Posts.Remove(Post);
-                await _context.SaveChangesAsync();
-            }
-
-            return RedirectToPage("./Index");
         }
     }
 }

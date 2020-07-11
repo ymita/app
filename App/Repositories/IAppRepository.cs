@@ -1,15 +1,16 @@
 ﻿using App.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace App.Repositories
 {
     public interface IAppRepository
     {
-        List<Post> getPostsByUser(string userName);
+        Task<List<Post>> getPostsByUserAsync(string userName);
 
-        Post getPost(int id);
+        Task<Post> getPost(int id);
 
-        List<Post> getAllPosts();
+        Task<List<Post>> getAllPosts();
     }
 }

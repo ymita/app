@@ -1,6 +1,6 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace App.Data.Migrations
 {

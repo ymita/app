@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,5 +15,7 @@ namespace App.Models
         public string Description { get; set; }
         public DateTime PublishedDate { get; set; }
         public string OwnerId { get; set; }
+        [DefaultValue(true)]
+        public bool IsDraft { get; set; }
     }
 }

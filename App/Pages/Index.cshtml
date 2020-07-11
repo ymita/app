@@ -8,16 +8,3 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
-
-@{ 
-    if(Model.Posts.Count > 0)
-    {
-        var posts = Model.Posts;
-        for (int i = 0; i < posts.Count; i++)
-        {
-            <div>
-                <a href="@Model.PostOwners[i]/@posts[i].Id">@posts[i].Title</a>
-            </div>
-        }
-    }
-}

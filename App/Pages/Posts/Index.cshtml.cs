@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,30 +7,19 @@ using App.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace App.Areas.Posts.Pages
+namespace App.Pages.Posts
 {
     public class IndexModel : PageModel
     {
-        public IAppRepository _appRepository { get; set; }
-
         public List<Post> Posts { get; set; }
-
-        public string UserName { get; set; }
-
+        private readonly IAppRepository _appRepository;
         public IndexModel(IAppRepository appRepository)
         {
             this._appRepository = appRepository;
         }
-
-        public void OnGet(string userName)
+        public async Task OnGet()
         {
-            if (string.IsNullOrEmpty(userName))
-            {
-                return;
-            }
-
-            this.UserName = userName;
-            this.Posts = this._appRepository.getPostsByUser(userName);
+            this.Posts = await this._appRepository.getAllPosts();
         }
     }
 }

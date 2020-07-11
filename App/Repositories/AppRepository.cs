@@ -25,7 +25,7 @@ namespace App.Repositories
         //    return await this._appDbContext.Posts.ToListAsync();
         //}
 
-        public List<Post> getPostsByUser(string userName)
+        public async Task<List<Post>> getPostsByUserAsync(string userName)
         {
             List<Post> posts = null;
 
@@ -33,21 +33,21 @@ namespace App.Repositories
             
             if (user != null)
             {
-                posts = this._appDbContext.Posts.Where(p => p.OwnerId == user.Id).ToList();
+                posts = await this._appDbContext.Posts.Where(p => p.OwnerId == user.Id).ToListAsync();
             }
             
             return posts;
         }
 
-        public Post getPost(int id)
+        public async Task<Post> getPost(int id)
         {
-            var post = this._appDbContext.Posts.Where(p => p.Id == id).FirstOrDefault();
+            var post = await this._appDbContext.Posts.Where(p => p.Id == id).FirstOrDefaultAsync();
             return post;
         }
 
-        public List<Post> getAllPosts()
+        public async Task<List<Post>> getAllPosts()
         {
-            var posts = this._appDbContext.Posts.ToList();
+            var posts = await this._appDbContext.Posts.ToListAsync();
             return posts;
         }
     }

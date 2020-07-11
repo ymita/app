@@ -1,5 +1,5 @@
-﻿@page "/Dashboard/posts/delete"
-@model App.Areas.Dashboard.Pages.Posts.DeleteModel
+﻿@page
+@model App.Pages.Dashboard.Posts.DeleteModel
 
 @{
     ViewData["Title"] = "Delete";
@@ -36,8 +36,14 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Post.OwnerId)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Post.IsDraft)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Post.IsDraft)
+        </dd>
     </dl>
-
+    
     <form method="post">
         <input type="hidden" asp-for="Post.Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |

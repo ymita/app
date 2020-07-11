@@ -1,0 +1,25 @@
+﻿@page "/posts/{id}"
+@model App.Pages.Posts.DetailsModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+@{
+    if (Model.Post == null)
+    {
+        <div>投稿はありません。</div>
+    }
+    else
+    {
+        <div>
+            Model.Post.Title
+        </div>
+        <div>
+            Model.Post.Description
+        </div>
+        <div>
+            Model.Post.PublishedDate
+        </div>
+    }
+}
