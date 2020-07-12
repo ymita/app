@@ -43,9 +43,9 @@ namespace App.Pages.Dashboard.Posts
             return Page();
         }
 
-        public async Task<IActionResult> OnPostNewAsync(int id)
+        public async Task<IActionResult> OnPostNewAsync(int? id)
         {
-            if (id != -1)
+            if (!id.HasValue && id != -1)
             {
                 return RedirectToPage("./Index");
             }
@@ -91,6 +91,9 @@ namespace App.Pages.Dashboard.Posts
             {
                 return Page();
             }
+
+            var userId = _userManager.GetUserId(User);
+            Post.OwnerId = userId;
 
             _context.Attach(Post).State = EntityState.Modified;
 
