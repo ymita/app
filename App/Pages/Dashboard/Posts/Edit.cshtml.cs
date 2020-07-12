@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using App.Data;
 using App.Models;
 using Microsoft.AspNetCore.Identity;
+using App.Repositories;
 
 namespace App.Pages.Dashboard.Posts
 {
@@ -16,12 +17,15 @@ namespace App.Pages.Dashboard.Posts
     {
         private readonly App.Data.AppDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IAppRepository _appRepository;
 
         public EditModel(App.Data.AppDbContext context,
-            UserManager<IdentityUser> userManager)
+            UserManager<IdentityUser> userManager,
+            IAppRepository appRepository)
         {
             _context = context;
             _userManager = userManager;
+            _appRepository = appRepository;
         }
 
         [BindProperty]
@@ -34,7 +38,9 @@ namespace App.Pages.Dashboard.Posts
                 return NotFound();
             }
 
-            Post = await _context.Posts.FirstOrDefaultAsync(m => m.Id == id);
+            var userName = User.Identity.Name;
+            var res = await _appRepository.getPostsByUserAsync(userName);
+            Post = res.Find(x => x.Id == id);
 
             if (Post == null)
             {

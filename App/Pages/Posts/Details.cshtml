@@ -4,7 +4,6 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
 @{
     if (Model.Post == null)
     {
@@ -12,14 +11,15 @@
     }
     else
     {
-        <div>
+        <h1>
             @Model.Post.Title
-        </div>
+        </h1>
+        <hr />
         <div>
             @Model.Post.Description
         </div>
         <div>
-            @Model.Post.PublishedDate
+            <text>投稿日: </text>@Model.Post.PublishedDate
         </div>
     }
 }
