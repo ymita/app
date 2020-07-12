@@ -18,7 +18,6 @@ namespace App.Models
         [DisplayName("投稿日")]
         public DateTime PublishedDate { get; set; }
         public string OwnerId { get; set; }
-        [DefaultValue(true)]
         [DisplayName("下書き")]
         public bool IsDraft { get; set; }
     }

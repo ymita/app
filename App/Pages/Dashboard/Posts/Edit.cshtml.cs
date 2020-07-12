@@ -68,6 +68,7 @@ namespace App.Pages.Dashboard.Posts
             var userId = _userManager.GetUserId(User);
             Post.OwnerId = userId;
             Post.PublishedDate = DateTime.Now;
+            Post.IsDraft = true;
 
             try
             {
