@@ -7,16 +7,20 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using App.Data;
 using App.Models;
+using App.Repositories;
 
 namespace App.Pages.Dashboard.Posts
 {
     public class DeleteModel : PageModel
     {
         private readonly App.Data.AppDbContext _context;
+        private readonly IAppRepository _appRepository;
 
-        public DeleteModel(App.Data.AppDbContext context)
+        public DeleteModel(App.Data.AppDbContext context,
+            IAppRepository appRepository)
         {
             _context = context;
+            _appRepository = appRepository;
         }
 
         [BindProperty]
@@ -29,7 +33,9 @@ namespace App.Pages.Dashboard.Posts
                 return NotFound();
             }
 
-            Post = await _context.Posts.FirstOrDefaultAsync(m => m.Id == id);
+            var userName = User.Identity.Name;
+            var res = await _appRepository.getPostsByUserAsync(userName);
+            Post = res.Find(x => x.Id == id);
 
             if (Post == null)
             {
