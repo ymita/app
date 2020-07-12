@@ -5,68 +5,50 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
-<form method="post">
-    <input type="hidden" name="id" value="-1" />
-    <input type="submit" value="新規投稿" class="btn btn-primary mb-2" asp-page="Edit" asp-page-handler="New" />
-</form>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Posts[0].Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Posts[0].PublishedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Posts[0].IsDraft)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Posts)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PublishedDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsDraft)
-                </td>
-                <td>
-                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-@*<h1>Create</h1>
-
-<h4>Post</h4>
-<hr />
+<h3>Dashboard</h3>
 <div class="row">
     <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-action active">投稿</li>
+            <li class="list-group-item list-group-item-action">コメント</li>
+            <li class="list-group-item list-group-item-action">設定</li>
+        </ul>
+    </div>
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post">
+                    <input type="hidden" name="id" value="-1" />
+                    <input type="submit" value="新規投稿" class="btn btn-primary mb-2" asp-page="Edit" asp-page-handler="New" />
+                </form>
             </div>
-        </form>
+            <div class="col-md-12">
+                @foreach (var item in Model.Posts)
+                {
+                    <div class="card">
+                        <div class="card-body" style="display: flex;">
+                            <div class="col-md-9">
+                                <h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>
+                                <text>@Html.DisplayFor(modelItem => item.PublishedDate)</text>
+                                @if (@item.IsDraft == true)
+                                {
+                                    <text>下書き</text>
+                                }
+                                else
+                                {
+                                    <text>公開済み</text>
+                                }
+                            </div>
+                            <div class="col-md-3">
+                                <a class="card-link" asp-page="./Edit" asp-route-id="@item.Id">Edit</a>
+                                <a class="card-link" asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        
+        
     </div>
 </div>
-
-<div>
-    <a asp-page="Index">Back to List</a>
-</div>*@
-
-@*@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}*@
