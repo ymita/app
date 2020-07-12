@@ -11,11 +11,15 @@ namespace App.Models
     {
         [Key]
         public int Id { get; set; }
+        [DisplayName("タイトル")]
         public string Title { get; set; }
+        [DisplayName("本文")]
         public string Description { get; set; }
+        [DisplayName("投稿日")]
         public DateTime PublishedDate { get; set; }
         public string OwnerId { get; set; }
         [DefaultValue(true)]
+        [DisplayName("下書き")]
         public bool IsDraft { get; set; }
     }
 }
