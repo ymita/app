@@ -101,6 +101,9 @@ namespace App.Pages.Dashboard.Posts
             var userId = _userManager.GetUserId(User);
             Post.OwnerId = userId;
 
+            var isDraft = Request.Form["draft"].Count == 1 ? true : false;
+            Post.IsDraft = isDraft;
+
             _context.Attach(Post).State = EntityState.Modified;
 
             try
@@ -119,7 +122,7 @@ namespace App.Pages.Dashboard.Posts
                 }
             }
 
-            return RedirectToPage("./Index");
+            return Page();
         }
 
         private bool PostExists(int id)
