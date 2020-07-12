@@ -74,3 +74,17 @@ body {
 .form-control, .btn {
     border-radius: unset;
 }
+
+.list-group-item:first-child {
+    border-top-left-radius: unset;
+    border-top-right-radius: unset;
+}
+
+.list-group-item:last-child {
+    border-bottom-right-radius: unset;
+    border-bottom-left-radius: unset;
+}
+
+.card {
+    border-radius: unset;
+}
