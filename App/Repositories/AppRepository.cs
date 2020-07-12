@@ -45,9 +45,15 @@ namespace App.Repositories
             return post;
         }
 
-        public async Task<List<Post>> getAllPosts()
+        public async Task<List<Post>> getAllPosts(bool includesDraft = false)
         {
-            var posts = await this._appDbContext.Posts.ToListAsync();
+            List<Post> posts;
+            if (includesDraft == true)
+            {
+                posts = await this._appDbContext.Posts.ToListAsync();
+            } else {
+                posts = await this._appDbContext.Posts.Where(p => p.IsDraft == includesDraft).ToListAsync();
+            }
             return posts;
         }
     }

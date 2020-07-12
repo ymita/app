@@ -11,6 +11,6 @@ namespace App.Repositories
 
         Task<Post> getPost(int id);
 
-        Task<List<Post>> getAllPosts();
+        Task<List<Post>> getAllPosts(bool includesDraft = false);
     }
 }
