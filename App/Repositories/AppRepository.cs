@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Net;
+using System.Web.Http;
 
 namespace App.Repositories
 {
@@ -39,9 +41,24 @@ namespace App.Repositories
             return posts;
         }
 
-        public async Task<Post> getPost(int id)
+        public async Task<Post> getPost(int id, string userName = null)
         {
-            var post = await this._appDbContext.Posts.Where(p => p.Id == id).FirstOrDefaultAsync();
+            Post post;
+            if(userName == null)
+            {
+                post = await this._appDbContext.Posts.Where(p => p.Id == id).FirstOrDefaultAsync();
+            } else
+            {
+                var owner = _identityRepository.getUserByName(userName);
+                
+                if (owner == null)
+                {
+                    throw new HttpResponseException(HttpStatusCode.NotFound);
+                }
+
+                var ownerId = owner.Id;
+                post = await this._appDbContext.Posts.Where(p => p.OwnerId == ownerId && p.Id == id).FirstOrDefaultAsync();
+            }
             return post;
         }
 

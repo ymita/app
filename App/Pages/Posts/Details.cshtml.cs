@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Http;
 using App.Models;
 using App.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -18,9 +19,14 @@ namespace App.Pages.Posts
             this._appRepository = appRepository;
         }
 
-        public async Task OnGet(int id)
+        public async Task OnGet(string userName, int id)
         {
-            this.Post = await this._appRepository.getPost(id);
+            try {
+                this.Post = await this._appRepository.getPost(id, userName);
+            }
+            catch(HttpResponseException hrex) {
+                System.Diagnostics.Debug.WriteLine(hrex.Message);
+            }
         }
     }
 }

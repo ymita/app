@@ -8,3 +8,39 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-sm-6">
+            <h2>Posts</h2>
+            <div class="col-md-12">
+                @for (int i = 0; i < Model.Posts.Count; i++)
+                {
+                    var item = Model.Posts[i];
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="col-md-9">
+                                <a href="./@Model.Owners[i]/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a>
+                                <h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>
+                                <text>@Html.DisplayFor(modelItem => item.PublishedDate)</text>
+                            </div>
+                        </div>
+                    </div>
+                }
+                @foreach (var item in Model.Posts)
+                {
+
+                }
+            </div>
+
+
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <h2>Tags</h2>
+            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+        </div>
+    </div>
+
+    <hr>
+
+</div>
