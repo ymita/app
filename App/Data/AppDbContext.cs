@@ -20,5 +20,6 @@ namespace App.Data
         }
 
         public DbSet<Post> Posts { get; set; }
+        public DbSet<Tag> Tags { get; set; }
     }
 }

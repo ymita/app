@@ -26,10 +26,20 @@ namespace App.Pages.Dashboard.Posts
             _context = context;
             _userManager = userManager;
             _appRepository = appRepository;
+
+            TagsInView = new List<TagInView> {
+                new TagInView{ Id = 1, IsSelected = true, TagName = "Tag 1" },
+                new TagInView{ Id = 2, IsSelected = true, TagName = "Tag 2" },
+                new TagInView{ Id = 3, IsSelected = false, TagName = "Tag 3" }
+            };
         }
 
         [BindProperty]
         public Post Post { get; set; }
+        public List<Tag> Tags { get; set; }
+        public List<string> AllTags { get; set; } = new List<string> { "tag 1", "tag 2", "tag 3" };
+        [BindProperty]
+        public List<TagInView> TagsInView { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -69,6 +79,9 @@ namespace App.Pages.Dashboard.Posts
             Post.OwnerId = userId;
             Post.PublishedDate = DateTime.Now;
             Post.IsDraft = true;
+
+            //これから編集する Tag コレクションを用意
+            Tags = new List<Tag>();
 
             try
             {
@@ -130,5 +143,12 @@ namespace App.Pages.Dashboard.Posts
         {
             return _context.Posts.Any(e => e.Id == id);
         }
+    }
+
+    public class TagInView
+    {
+        public int Id { get; set; }
+        public bool IsSelected { get; set; }
+        public string TagName { get; set; }
     }
 }
