@@ -26,20 +26,14 @@ namespace App.Pages.Dashboard.Posts
             _context = context;
             _userManager = userManager;
             _appRepository = appRepository;
-
-            TagsInView = new List<TagInView> {
-                new TagInView{ Id = 1, IsSelected = true, TagName = "Tag 1" },
-                new TagInView{ Id = 2, IsSelected = true, TagName = "Tag 2" },
-                new TagInView{ Id = 3, IsSelected = false, TagName = "Tag 3" }
-            };
         }
 
         [BindProperty]
         public Post Post { get; set; }
         public List<Tag> Tags { get; set; }
-        public List<string> AllTags { get; set; } = new List<string> { "tag 1", "tag 2", "tag 3" };
+        private List<Tag> AllTags { get; set; }
         [BindProperty]
-        public List<TagInView> TagsInView { get; set; }
+        public List<TagInView> TagsInView { get; set; } = new List<TagInView>();
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -51,6 +45,23 @@ namespace App.Pages.Dashboard.Posts
             var userName = User.Identity.Name;
             var res = await _appRepository.getPostsByUserAsync(userName);
             Post = res.Find(x => x.Id == id);
+
+            // AllTags に対して Tags の内容を反映し、TagsInView を生成する。
+            //var allTags = context.Tags.ToList();
+            this.AllTags = await this._context.Tags.ToListAsync();
+
+            this.Tags = this.AllTags.Where(x => x.PostId == Post.Id).OrderBy(x=>x.TagName).ToList();
+
+            for(int i = 0; i < AllTags.Count; i++)
+            {
+                var tag = AllTags[i];
+                var isTagContained = Tags.Exists(x=>x.TagName.Contains(tag.TagName));
+                TagsInView.Add(new TagInView {
+                    Id = tag.Id,
+                    TagName = tag.TagName,
+                    IsSelected = isTagContained
+                });
+            }
 
             if (Post == null)
             {
@@ -119,6 +130,69 @@ namespace App.Pages.Dashboard.Posts
             Post.IsDraft = isDraft;
 
             _context.Attach(Post).State = EntityState.Modified;
+            
+            // Post に紐づくTags
+            var tags = this._context.Tags.Where(x => x.PostId == Post.Id).ToList();
+            //for(int i = 0; i < tags.Count; i++)
+            //{
+            //    this._context.Tags.Remove(tags[i]);
+            //}
+
+            /* TagsInView は新たに Post に紐づく Tags */
+            var tagsToAdd = new List<Tag>();
+            var tagsToDelete = new List<Tag>();
+            // tags になくて TagsInView で IsSelected = true のものは新規追加
+            // tags にあって TagsInView で IsSelected = false のものは削除
+            var selectedTags = TagsInView.Where(x => x.IsSelected == true).ToList();
+            for (int i = 0; i < selectedTags.Count; i++)
+            {
+                if (!tags.Exists(x=> x.TagName == selectedTags[i].TagName))
+                {
+                    //this.AllTags から追加、削除する Id を割り出して、Add する。
+                    tagsToAdd.Add(
+                        new Tag
+                        {
+                            TagName = selectedTags[i].TagName,
+                            PostId = this.Post.Id
+                        }
+                    );
+                }
+            }
+
+            var unselectedTags = TagsInView.Where(x => x.IsSelected == false).ToList();
+
+            //this.AllTags から追加、削除する Id を割り出して、Delete する。
+            /*this.AllTags.Where(x => x.PostId == Post.Id).OrderBy(x => x.TagName).ToList();*/
+            for (int i = 0; i < unselectedTags.Count; i++)
+            {
+                this.AllTags = await this._context.Tags.ToListAsync();
+                var tagToDelete = this.AllTags.Where(x => x.PostId == Post.Id && x.TagName == unselectedTags[i].TagName).FirstOrDefault();
+                if(tagToDelete != null)
+                {
+                    tagsToDelete.Add(tagToDelete);
+                }
+            }
+            //if (!tags.Contains(unselectedTags[i]))
+            //{
+            //    tagsToDelete.Add(unselectedTags[i]);
+            //}
+
+
+            //this._context.Tags.AddRange(tagsToAdd);
+            this._context.Tags.RemoveRange(tagsToDelete);
+
+            // どちらにもあるものは Stay
+
+            //for (int i = 0; i < TagsInView.Count; i++)
+            //{
+            //    if(TagsInView[i].IsSelected)
+            //    {
+            //        var t = new Tag();
+            //        t.PostId = Post.Id;
+            //        t.TagName = TagsInView[i].TagName;
+            //        this._context.Tags.Add(t);
+            //    }
+            //}
 
             try
             {
@@ -145,10 +219,8 @@ namespace App.Pages.Dashboard.Posts
         }
     }
 
-    public class TagInView
+    public class TagInView : Tag
     {
-        public int Id { get; set; }
         public bool IsSelected { get; set; }
-        public string TagName { get; set; }
     }
 }
