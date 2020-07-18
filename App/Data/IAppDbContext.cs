@@ -7,5 +7,6 @@ namespace App.Data
     {
         DbSet<Post> Posts { get; set; }
         DbSet<Tag> Tags { get; set; }
+        DbSet<PostTagCrossReference> PostsTagsCrossReferences { get; set; }
     }
 }
