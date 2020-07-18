@@ -179,24 +179,29 @@ namespace App.Pages.Dashboard.Posts
 
             // データベース上で既に Post に紐付いているタグはそのまま
             string sql = "SELECT Id, PostId, TagId from dbo.Posts_Tags_XREF WHERE PostId in (SELECT Id from dbo.Posts WHERE OwnerId = '" + userId + "') AND PostId = " + Post.Id;
-            var selectedPostsTags = this._context.PostsTagsCrossReferences.FromSqlRaw(sql).ToList();
-
+            var postTags = this._context.PostsTagsCrossReferences.FromSqlRaw(sql).ToList();
             // データベース上で、まだ Post に紐付いていないタグは追加対象とする => コミットする。
-            //visiblePostsTagsCrossReferences.Where(x => x.PostId == 1008).ToList()
-            
-            var unselectedTags = TagsInView.Where(x => x.IsSelected == false).ToList();
+            foreach (var item in selectedTags)
+            {
+                Tag tag = new Tag() { Id = item.Id, TagName = item.TagName };
+                if (!postTags.Any(x => x.TagId == item.Id))
+                {
+                    var ptxref = new PostTagCrossReference() { PostId = Post.Id, TagId = item.Id };
+                    this._context.PostsTagsCrossReferences.Add(ptxref);
+                }
+            }
 
+            // データベース上で PostsTagsRelation テーブルで Post に紐付いているタグは削除する => コミットする。
+            var unselectedTags = TagsInView.Where(x => x.IsSelected == false).ToList();
             foreach (var item in unselectedTags)
             {
                 Tag tag = new Tag() { Id = item.Id, TagName = item.TagName };
-                if(selectedPostsTags.Any(x=>x.TagId == tag.Id))
+                if(postTags.Any(x=>x.TagId == tag.Id))
                 {
                     var ptxref = this._context.PostsTagsCrossReferences.Where(x=>x.TagId == tag.Id).FirstOrDefault();
                     this._context.PostsTagsCrossReferences.Remove(ptxref);
                 }
             }
-                
-            // データベース上で PostsTagsRelation テーブルで Post に紐付いているタグは削除する => コミットする。
             // どの Post とも紐付いていないタグは Tags テーブルから削除する => コミットする。
 
                 //this.AllTags から追加、削除する Id を割り出して、Delete する。
