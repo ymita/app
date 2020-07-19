@@ -10,6 +10,7 @@ using App.Data;
 using App.Models;
 using Microsoft.AspNetCore.Identity;
 using App.Repositories;
+using System.ComponentModel;
 
 namespace App.Pages.Dashboard.Posts
 {
@@ -30,6 +31,7 @@ namespace App.Pages.Dashboard.Posts
 
         [BindProperty]
         public Post Post { get; set; }
+        [DisplayName("タグ")]
         public List<Tag> Tags { get; set; }
         private List<Tag> AllTags { get; set; }
         [BindProperty]

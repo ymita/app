@@ -8,8 +8,9 @@
 <h4>投稿の編集</h4>
 <hr />
 <div class="row">
-    <div class="col-md-8">
-        <form method="post">
+    <form method="post" class="row col-md-12">
+        <div class="col-md-8">
+
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Post.Id" />
             <div class="form-group">
@@ -22,29 +23,9 @@
                 <textarea asp-for="Post.Description" class="form-control" rows="10"></textarea>
                 <span asp-validation-for="Post.Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Post.PublishedDate" class="control-label"></label>
-                <input asp-for="Post.PublishedDate" class="form-control" />
-                <span asp-validation-for="Post.PublishedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <ul>
-                    @{
-                        if (Model.TagsInView != null && Model.TagsInView.Count > 0)
-                        {
-                            @for (var i = 0; i < Model.TagsInView.Count; i++)
-                            {
-                    <li>
-                        <input asp-for="@Model.TagsInView[i].IsSelected" />
-                        <label asp-for="@Model.TagsInView[i].IsSelected">@Model.TagsInView[i].TagName</label>
-                        <input type="hidden" asp-for="@Model.TagsInView[i].Id" />
-                        <input type="hidden" asp-for="@Model.TagsInView[i].TagName" />
-                    </li>
-                            }
-                        }
-                    }
-                </ul>
-            </div>
+
+        </div>
+        <div class="col-md-4">
             <div class="form-group">
                 <text>公開ステータス: </text>
                 @if (Model.Post.IsDraft)
@@ -60,11 +41,32 @@
                 <input type="submit" name="draft" value="下書き" class="btn btn-secondary" asp-page-handler="OnPostAsync" />
                 <input type="submit" name="publish" value="公開" class="btn btn-primary" asp-page-handler="OnPostAsync" />
             </div>
-        </form>
-    </div>
-    <div class="col-md-4">
-        
-    </div>
+            <div class="form-group">
+                <label asp-for="Post.PublishedDate" class="control-label"></label>
+                <input asp-for="Post.PublishedDate" class="form-control" />
+                <span asp-validation-for="Post.PublishedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Tags" class="control-label"></label>
+                <ul>
+                    @{
+                        if (Model.TagsInView != null && Model.TagsInView.Count > 0)
+                        {
+                            @for (var i = 0; i < Model.TagsInView.Count; i++)
+                            {
+                                <li>
+                                    <input asp-for="@Model.TagsInView[i].IsSelected" />
+                                    <label asp-for="@Model.TagsInView[i].IsSelected">@Model.TagsInView[i].TagName</label>
+                                    <input type="hidden" asp-for="@Model.TagsInView[i].Id" />
+                                    <input type="hidden" asp-for="@Model.TagsInView[i].TagName" />
+                                </li>
+                            }
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    </form>
 </div>
     <div>
         <a asp-page="./Index">Back to List</a>
