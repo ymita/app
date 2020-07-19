@@ -201,8 +201,8 @@ namespace App.Pages.Dashboard.Posts
 
             // TagsInView の更新
             this.TagsInView = await this.getTagsInView();
-
-            return Page();
+            return RedirectToPage("./Edit", new { id = this.Post.Id });
+            //return Page();
         }
 
         private bool PostExists(int id)

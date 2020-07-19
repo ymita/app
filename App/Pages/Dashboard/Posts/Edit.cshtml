@@ -49,7 +49,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="@Model.Tags" class="control-label"></label>
-                <ul>
+                <input id="myInput" type="text" class="form-control" onkeyup="myFunction()"/>
+                <ul id="myUL">
                     @{
                         if (Model.TagsInView != null && Model.TagsInView.Count > 0)
                         {
@@ -64,6 +65,7 @@
                             }
                         }
                     }
+                    <li id="newTag" style="display: none;"></li>
                 </ul>
             </div>
         </div>
@@ -76,3 +78,37 @@
     @section Scripts {
         @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     }
+<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById('myInput');
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("myUL");
+        li = ul.getElementsByTagName('li');
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < li.length; i++) {
+            txtValue = li[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+
+        var visibleTags = Array.from(li).filter(x => x.style.display === "").length;
+        if (visibleTags === 0 && input.value !== "") {
+            console.log("show add tag menu");
+            var newTag = document.getElementById("newTag");
+            newTag.style.display = "";
+            newTag.innerHTML =
+                input.value + "<input type='button' onclick='onAddTag(this)' value='追加'></input>";
+        }
+    }
+
+    function onAddTag(args) {
+        alert("Tag added!");
+        console.log(args);
+    }
+</script>
