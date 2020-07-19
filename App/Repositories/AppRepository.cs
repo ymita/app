@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Net;
 using System.Web.Http;
+using System.Security.Claims;
 
 namespace App.Repositories
 {
@@ -72,6 +73,20 @@ namespace App.Repositories
                 posts = await this._appDbContext.Posts.Where(p => p.IsDraft == includesDraft).ToListAsync();
             }
             return posts;
+        }
+
+        public async Task<List<PostTagCrossReference>> getPostsTagsReferencesAsync(string userId)
+        {
+            string sql = "SELECT Id, PostId, TagId from dbo.Posts_Tags_XREF WHERE PostId in (SELECT Id from dbo.Posts WHERE OwnerId = '" + userId + "')";
+            var visiblePostsTagsCrossReferences = await this._appDbContext.PostsTagsCrossReferences.FromSqlRaw(sql).ToListAsync();
+            return visiblePostsTagsCrossReferences.GroupBy(x => x.TagId).Select(g => g.First()).ToList();
+            //return await this._appDbContext.PostsTagsCrossReferences.FromSqlRaw(sql).ToListAsync();
+        }
+
+        public async Task<List<PostTagCrossReference>> getPostTagsReferencesByPostIdAsync(string userId, int postId)
+        {
+            var sql = "SELECT Id, PostId, TagId from dbo.Posts_Tags_XREF WHERE PostId in (SELECT Id from dbo.Posts WHERE OwnerId = '" + userId + "') AND PostId = " + postId;
+            return await this._appDbContext.PostsTagsCrossReferences.FromSqlRaw(sql).ToListAsync();
         }
     }
 }
