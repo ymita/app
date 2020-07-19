@@ -27,19 +27,20 @@
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <text>公開ステータス: </text>
-                @if (Model.Post.IsDraft)
-                {
-                    <text>下書き</text>
-                }
-                else
-                {
-                    <text>公開済み</text>
-                }
-            </div>
-            <div class="form-group">
+                <div>
+                    <text>ステータス: </text>
+                    @if (Model.Post.IsDraft)
+                    {
+                        <text>下書き</text>
+                    }
+                    else
+                    {
+                        <text>公開済み</text>
+                    }
+                </div>
                 <input type="submit" name="draft" value="下書き" class="btn btn-secondary" asp-page-handler="OnPostAsync" />
                 <input type="submit" name="publish" value="公開" class="btn btn-primary" asp-page-handler="OnPostAsync" />
+
             </div>
             <div class="form-group">
                 <label asp-for="Post.PublishedDate" class="control-label"></label>
