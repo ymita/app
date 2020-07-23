@@ -72,7 +72,7 @@ namespace App.Repositories
             } else {
                 posts = await this._appDbContext.Posts.Where(p => p.IsDraft == includesDraft).ToListAsync();
             }
-            return posts;
+            return posts.OrderByDescending(x=>x.PublishedDate).ToList();
         }
 
         public async Task<List<PostTagCrossReference>> getPostsTagsReferencesAsync(string userId)
