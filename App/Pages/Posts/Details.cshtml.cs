@@ -19,14 +19,20 @@ namespace App.Pages.Posts
             this._appRepository = appRepository;
         }
 
-        public async Task OnGet(string userName, int id)
+        public async Task<IActionResult> OnGet(string userName, int id)
         {
             try {
-                this.Post = await this._appRepository.getPost(id, userName);
+                var post = await this._appRepository.getPost(id, userName);
+                if(post.IsDraft)
+                {
+                    return NotFound();
+                }
+                this.Post = post;
             }
             catch(HttpResponseException hrex) {
                 System.Diagnostics.Debug.WriteLine(hrex.Message);
             }
+            return Page();
         }
     }
 }
