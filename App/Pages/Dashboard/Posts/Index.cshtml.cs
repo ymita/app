@@ -29,8 +29,8 @@ namespace App.Pages.Dashboard.Posts
         public async Task OnGetAsync()
         {
             var userName = User.Identity.Name;
-            var post = await this._appResository.getPostsByUserAsync(userName);
-            Posts = post;
+            var posts = await this._appResository.getPostsByUserAsync(userName);
+            Posts = posts;
         }
 
 

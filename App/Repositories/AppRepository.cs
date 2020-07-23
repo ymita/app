@@ -39,7 +39,7 @@ namespace App.Repositories
                 posts = await this._appDbContext.Posts.Where(p => p.OwnerId == user.Id).ToListAsync();
             }
             
-            return posts;
+            return posts.OrderByDescending(x => x.PublishedDate).ToList();
         }
 
         public async Task<Post> getPost(int id, string userName = null)
