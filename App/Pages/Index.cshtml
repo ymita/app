@@ -21,27 +21,31 @@
                 @for (int i = 0; i < Model.Posts.Count; i++)
                 {
                     var item = Model.Posts[i];
-                <div class="card post">
-                    <a href="./@Model.Owners[i]/@item.Id">
-                        <div class="card-body">
-                            <div class="col-md-9">
-                                <h5 class="card-title">
-                                    @Html.DisplayFor(modelItem => item.Title)
-                                </h5>
-
-                                <text>@Html.DisplayFor(modelItem => item.PublishedDate)</text>
+                    <div class="card post">
+                        <a href="./@Model.Owners[i]/@item.Id">
+                            <div class="card-body">
+                                <div class="col-md-9">
+                                    <h5 class="card-title">
+                                        @Html.DisplayFor(modelItem => item.Title)
+                                    </h5>
+                                    <div>
+                                        <svg style="margin-bottom: 0.15rem; margin-right: 0.15rem;" width="1rem" height="1rem" viewBox="0 0 16 16" class="bi bi-calendar2-event" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zm-2 3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-1zM11.5 7a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1z" />
+                                        </svg>
+                                        @Html.DisplayFor(modelItem => item.PublishedDate)
+                                    </div>
+                                    <div>
+                                        <svg style="margin-bottom: 0.15rem; margin-right: 0.15rem;" width="1rem" height="1rem" viewBox="0 0 16 16" class="bi bi-person-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                                        </svg>
+                                        @Model.Owners[i]
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
                     </div>
                 }
-                @foreach (var item in Model.Posts)
-                {
-
-                }
             </div>
-
-
         </div>
         <div class="col-md-4 col-sm-6">
             <h2>Tags</h2>
