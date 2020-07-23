@@ -20,64 +20,73 @@
             </div>
             <div class="form-group">
                 <label asp-for="Post.Description" class="control-label"></label>
-                <textarea asp-for="Post.Description" class="form-control" rows="10"></textarea>
+                @*<textarea name="editordata"></textarea>*@
+                <textarea id="summernote" asp-for="Post.Description" class="form-control" rows="10"></textarea>
                 <span asp-validation-for="Post.Description" class="text-danger"></span>
             </div>
 
         </div>
         <div class="col-md-4">
             <div class="form-group">
+                <label>ステータス: </label>
+                @if (Model.Post.IsDraft)
+                {
+                    <text>下書き</text>
+                }
+                else
+                {
+                    <text>公開済み</text>
+                }
                 <div>
-                    <text>ステータス: </text>
-                    @if (Model.Post.IsDraft)
-                    {
-                        <text>下書き</text>
-                    }
-                    else
-                    {
-                        <text>公開済み</text>
-                    }
+                    <input type="submit" name="draft" value="下書き" class="btn btn-secondary" asp-page-handler="OnPostAsync" />
+                    <input type="submit" name="publish" value="公開" class="btn btn-primary" asp-page-handler="OnPostAsync" />
                 </div>
-                <input type="submit" name="draft" value="下書き" class="btn btn-secondary" asp-page-handler="OnPostAsync" />
-                <input type="submit" name="publish" value="公開" class="btn btn-primary" asp-page-handler="OnPostAsync" />
-
             </div>
             <div class="form-group">
                 <label asp-for="Post.PublishedDate" class="control-label"></label>
                 <input asp-for="Post.PublishedDate" class="form-control" />
                 <span asp-validation-for="Post.PublishedDate" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="@Model.Tags" class="control-label"></label>
-                <input id="myInput" type="text" class="form-control" onkeyup="myFunction()"/>
-                <ul id="myUL">
-                    @{
-                        if (Model.TagsInView != null && Model.TagsInView.Count > 0)
-                        {
-                            @for (var i = 0; i < Model.TagsInView.Count; i++)
+            @*<div class="form-group">
+                    <label asp-for="@Model.Tags" class="control-label"></label>
+                    <input id="myInput" type="text" class="form-control" onkeyup="myFunction()"/>
+                    <ul id="myUL">
+                        @{
+                            if (Model.TagsInView != null && Model.TagsInView.Count > 0)
                             {
-                                <li>
-                                    <input asp-for="@Model.TagsInView[i].IsSelected" />
-                                    <label asp-for="@Model.TagsInView[i].IsSelected">@Model.TagsInView[i].TagName</label>
-                                    <input type="hidden" asp-for="@Model.TagsInView[i].Id" />
-                                    <input type="hidden" asp-for="@Model.TagsInView[i].TagName" />
-                                </li>
+                                @for (var i = 0; i < Model.TagsInView.Count; i++)
+                                {
+                                    <li>
+                                        <input asp-for="@Model.TagsInView[i].IsSelected" />
+                                        <label asp-for="@Model.TagsInView[i].IsSelected">@Model.TagsInView[i].TagName</label>
+                                        <input type="hidden" asp-for="@Model.TagsInView[i].Id" />
+                                        <input type="hidden" asp-for="@Model.TagsInView[i].TagName" />
+                                    </li>
+                                }
                             }
                         }
-                    }
-                    <li id="newTag" style="display: none;"></li>
-                </ul>
-            </div>
+                        <li id="newTag" style="display: none;"></li>
+                    </ul>
+                </div>*@
         </div>
     </form>
 </div>
-    <div>
-        <a asp-page="./Index">Back to List</a>
-    </div>
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
 
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+}
 <script>
     function myFunction() {
         // Declare variables
@@ -111,4 +120,11 @@
         alert("Tag added!");
         console.log(args);
     }
+
+    setTimeout(function () {
+        $('#summernote').summernote();
+    }, 100);
+    
+        //$(document).ready(function () {
+        //});
 </script>
