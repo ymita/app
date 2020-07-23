@@ -16,7 +16,7 @@
         </h1>
         <hr />
         <div>
-            @Model.Post.Description
+            @Html.Raw(Model.Post.Description)
         </div>
         <div>
             <text>投稿日: </text>@Model.Post.PublishedDate
