@@ -32,6 +32,8 @@ namespace App.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
+            [Display(Name = "User ID")]
+            public string UserId { get; set; }
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
@@ -42,10 +44,9 @@ namespace App.Areas.Identity.Pages.Account.Manage
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
-            Username = userName;
-
             Input = new InputModel
             {
+                UserId = userName,
                 PhoneNumber = phoneNumber
             };
         }
@@ -74,6 +75,17 @@ namespace App.Areas.Identity.Pages.Account.Manage
             {
                 await LoadAsync(user);
                 return Page();
+            }
+
+            var userName = await _userManager.GetUserNameAsync(user);
+            if (Input.UserId != userName)
+            {
+                var setUserNameResult = await _userManager.SetUserNameAsync(user, Input.UserId);
+                if (!setUserNameResult.Succeeded)
+                {
+                    var userId = await _userManager.GetUserIdAsync(user);
+                    throw new InvalidOperationException($"Unexpected error occurred setting user name for user with ID '{userId}'.");
+                }
             }
 
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
