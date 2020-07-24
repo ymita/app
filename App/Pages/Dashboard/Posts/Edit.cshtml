@@ -70,27 +70,27 @@
                 <input asp-for="Post.UpdatedDate" id="updatedDate" class="form-control" />
                 <span asp-validation-for="Post.UpdatedDate" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
-            <label asp-for="@Model.Tags" class="control-label"></label>
-            <input id="myInput" type="text" class="form-control" onkeyup="myFunction()"/>
-            <ul id="myUL">
-                @{
-                    if (Model.TagsInView != null && Model.TagsInView.Count > 0)
-                    {
-                        @for (var i = 0; i < Model.TagsInView.Count; i++)
+            <div class="form-group">
+                <label asp-for="@Model.Tags" class="control-label"></label>
+                <input id="myInput" type="text" class="form-control" onkeyup="myFunction()"/>
+                <ul id="myUL">
+                    @{
+                        if (Model.TagsInView != null && Model.TagsInView.Count > 0)
                         {
-                            <li>
-                                <input asp-for="@Model.TagsInView[i].IsSelected" />
-                                <label asp-for="@Model.TagsInView[i].IsSelected">@Model.TagsInView[i].TagName</label>
-                                <input type="hidden" asp-for="@Model.TagsInView[i].Id" />
-                                <input type="hidden" asp-for="@Model.TagsInView[i].TagName" />
-                            </li>
+                            @for (var i = 0; i < Model.TagsInView.Count; i++)
+                            {
+                                <li>
+                                    <input asp-for="@Model.TagsInView[i].IsSelected" />
+                                    <label asp-for="@Model.TagsInView[i].IsSelected">@Model.TagsInView[i].TagName</label>
+                                    <input type="hidden" asp-for="@Model.TagsInView[i].Id" />
+                                    <input type="hidden" asp-for="@Model.TagsInView[i].TagName" />
+                                </li>
+                            }
                         }
                     }
-                }
-                <li id="newTag" style="display: none;"></li>
-            </ul>
-        </div>*@
+                    <li id="newTag" style="display: none;"></li>
+                </ul>
+            </div>
         </div>
     </form>
 </div>
