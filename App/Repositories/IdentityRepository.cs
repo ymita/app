@@ -37,9 +37,9 @@ namespace App.Repositories
             return this._identityDbContext.Users.Find(userId).UserName;
         }
 
-        public void saveProfilePicture(string userId, byte[] picture)
+        public async Task saveProfilePicture(string userId, Task<byte[]> picture)
         {
-            var result = picture;
+            var result = picture.Result;
             var profilePicture = this._identityDbContext.ProfilePictures.Where(x => x.UserId == userId).FirstOrDefault();
             if(profilePicture != null)
             {
@@ -51,7 +51,7 @@ namespace App.Repositories
                 new ProfilePicture { UserId = userId, Picture = result }
             );
             //}
-            this._identityDbContext.SaveChanges();
+            await this._identityDbContext.SaveChangesAsync();
 
             return;
         }

@@ -12,7 +12,7 @@ namespace App.Repositories
 
         string getUserNameById(string userId);
 
-        void saveProfilePicture(string userId, byte[] picture);
+        Task saveProfilePicture(string userId, Task<byte[]> picture);
 
         byte[] getProfilePicutre(string userId);
     }

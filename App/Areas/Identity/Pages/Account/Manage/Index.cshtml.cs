@@ -129,7 +129,7 @@ namespace App.Areas.Identity.Pages.Account.Manage
                     }
                 }
                 var res = ImageToByteArray(thumbnail);
-                this._identityRepository.saveProfilePicture(user.Id, res);
+                await this._identityRepository.saveProfilePicture(user.Id, res);
             }
             
 
@@ -155,7 +155,7 @@ namespace App.Areas.Identity.Pages.Account.Manage
         //        return ms.ToArray();
         //    }
         //}
-        public byte[] ImageToByteArray(System.Drawing.Image imageIn)
+        public async Task<byte[]> ImageToByteArray(System.Drawing.Image imageIn)
         {
             using (var ms = new MemoryStream())
             {
