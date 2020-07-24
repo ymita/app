@@ -18,11 +18,17 @@ namespace App.Pages.User
             this._appResository = appRepository;
         }
 
+        public string UserName { get; set; }
         public IList<Post> Posts { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(string userName)
         {
-            var userName = User.Identity.Name;
+            if(string.IsNullOrEmpty(userName))
+            {
+                return;
+            }
+
+            this.UserName = userName;
             var posts = await this._appResository.getPostsByUserAsync(userName);
             Posts = posts;
         }
