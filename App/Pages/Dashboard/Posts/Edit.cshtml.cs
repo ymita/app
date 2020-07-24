@@ -33,7 +33,8 @@ namespace App.Pages.Dashboard.Posts
         public Post Post { get; set; }
         [DisplayName("タグ")]
         public List<Tag> Tags { get; set; }
-        private List<Tag> AllTags { get; set; }
+        //[BindProperty]
+        //public List<TagInView> NewTagsInView { get; set; } = new List<TagInView>();
         [BindProperty]
         public List<TagInView> TagsInView { get; set; } = new List<TagInView>();/* TagsInView は新たに Post に紐づく Tags */
 

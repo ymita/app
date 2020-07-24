@@ -73,6 +73,11 @@
             <div class="form-group">
                 <label asp-for="@Model.Tags" class="control-label"></label>
                 <input id="myInput" type="text" class="form-control" onkeyup="myFunction()"/>
+                <div id="addTag"
+                     style="display: none; padding-right: 10.5px; padding-left: 10.5px; padding-top: 5.25px; padding-bottom: 5.25px; border: 1px solid gray;"
+                     onclick="onAddTag()">
+                    <span id="addTagLabel" style="font-weight: bold;"></span> を追加する。
+                </div>
                 <ul id="myUL">
                     @{
                         if (Model.TagsInView != null && Model.TagsInView.Count > 0)
@@ -88,7 +93,7 @@
                             }
                         }
                     }
-                    <li id="newTag" style="display: none;"></li>
+                    @*<li id="newTag" style="display: none;"></li>*@
                 </ul>
             </div>
         </div>
@@ -152,15 +157,38 @@
         var visibleTags = Array.from(li).filter(x => x.style.display === "").length;
         if (visibleTags === 0 && input.value !== "") {
             console.log("show add tag menu");
-            var newTag = document.getElementById("newTag");
-            newTag.style.display = "";
-            newTag.innerHTML =
-                input.value + "<input type='button' onclick='onAddTag(this)' value='追加'></input>";
+
+            document.getElementById("addTag").style.display = "";
+            document.getElementById("addTagLabel").textContent = input.value;
         }
     }
 
-    function onAddTag(args) {
-        alert("Tag added!");
-        console.log(args);
+    function onAddTag() {
+        var ul = document.getElementById("myUL");
+        var fragment = document.createDocumentFragment();
+        var li = document.createElement('li');
+        var checkbox = document.createElement('input');
+        checkbox.setAttribute('type','checkbox');
+        checkbox.setAttribute('name','name');
+        checkbox.setAttribute('id', 'name');
+        checkbox.setAttribute('checked', 'checked');
+        checkbox.value = true;
+        li.appendChild(checkbox);
+
+        var label = document.createElement('label');
+        label.setAttribute('for', 'name');
+        var textNode = document.createTextNode(document.getElementById("addTagLabel").textContent);
+        label.appendChild(textNode);
+        li.appendChild(label);
+        
+        fragment.appendChild(li);
+        ul.appendChild(fragment);
+
+        document.getElementById("myInput").value = '';
+
+        document.getElementById("addTagLabel").textContent = "";
+        document.getElementById("addTag").style.display = "none";
+
+        myFunction();
     }
 </script>
