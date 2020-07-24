@@ -19,10 +19,12 @@
             @Html.Raw(Model.Post.Description)
         </div>
         <div>
-            <text>投稿日: </text>@Model.Post.PublishedDate
+            <text>投稿日: </text>
+            <time datetime="@Model.Post.PublishedDate.ToString("yyyy-MM-ddTHH:mm:ssZ")" itemprop="PublishedDate">@Model.Post.PublishedDate.ToString("yyyy-MM-dd")</time>
         </div>
         <div>
-            <text>更新日: </text>@Model.Post.UpdatedDate
+            <text>更新日: </text>
+            <time datetime="@Model.Post.UpdatedDate.ToString("yyyy-MM-ddTHH:mm:ssZ")" itemprop="UpdatedDate">@Model.Post.UpdatedDate.ToString("yyyy-MM-dd")</time>
         </div>
     }
 }
