@@ -1,8 +1,10 @@
 ﻿@page "/{userName}/{id}"
-@model App.Pages.Posts.DetailsModel
+@model App.Pages.User.PostDetailModel
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "PostDetail";
 }
+
+<h1>PostDetail</h1>
 
 @{
     if (Model.Post == null)
