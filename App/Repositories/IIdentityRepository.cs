@@ -11,5 +11,9 @@ namespace App.Repositories
         IdentityUser getUserByName(string userName);
 
         string getUserNameById(string userId);
+
+        void saveProfilePicture(string userId, byte[] picture);
+
+        byte[] getProfilePicutre(string userId);
     }
 }

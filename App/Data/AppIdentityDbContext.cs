@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using App.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,5 +19,7 @@ namespace App.Data
             : base(options)
         {
         }
+
+        public DbSet<ProfilePicture> ProfilePictures { get; set; }
     }
 }

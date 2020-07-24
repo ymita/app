@@ -1,4 +1,5 @@
 ﻿using App.Data;
+using App.Models;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,35 @@ namespace App.Repositories
                 throw new InvalidOperationException("User name is not provided");
             }
             return this._identityDbContext.Users.Find(userId).UserName;
+        }
+
+        public void saveProfilePicture(string userId, byte[] picture)
+        {
+            var result = picture;
+            var profilePicture = this._identityDbContext.ProfilePictures.Where(x => x.UserId == userId).FirstOrDefault();
+            if(profilePicture != null)
+            {
+                this._identityDbContext.ProfilePictures.Remove(profilePicture);
+            }
+            //if (profilePicture == null)
+            //{
+            this._identityDbContext.ProfilePictures.Add(
+                new ProfilePicture { UserId = userId, Picture = result }
+            );
+            //}
+            this._identityDbContext.SaveChanges();
+
+            return;
+        }
+
+        public byte[] getProfilePicutre(string userId)
+        {
+            var picture = this._identityDbContext.ProfilePictures.Where(x => x.UserId == userId).FirstOrDefault();
+            if (picture == null)
+            {
+                return null;
+            }
+            return picture.Picture;
         }
     }
 }

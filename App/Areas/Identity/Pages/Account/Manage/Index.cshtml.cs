@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using App.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -13,13 +18,16 @@ namespace App.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly IIdentityRepository _identityRepository;
 
         public IndexModel(
             UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+            SignInManager<IdentityUser> signInManager,
+            IIdentityRepository identityRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            this._identityRepository = identityRepository;
         }
 
         public string Username { get; set; }
@@ -37,17 +45,26 @@ namespace App.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+            [Display(Name = "Avatar")]
+            [BindProperty]
+            public IFormFile Avatar { get; set; }
+            public string Source { get; set; }
         }
 
         private async Task LoadAsync(IdentityUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            IFormFile avatar = null;
+
+            var source = _identityRepository.getProfilePicutre(user.Id);
 
             Input = new InputModel
             {
                 UserId = userName,
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                Avatar = avatar,
+                Source = "data:image;base64," + Convert.ToBase64String(source)
             };
         }
 
@@ -99,9 +116,64 @@ namespace App.Areas.Identity.Pages.Account.Manage
                 }
             }
 
+            if(this.Input.Avatar != null)
+            {
+                Image thumbnail;
+                using (var memoryStream = new MemoryStream())
+                {
+                    await this.Input.Avatar.CopyToAsync(memoryStream);
+                    using (var img = Image.FromStream(memoryStream))
+                    {
+                        // TODO: ResizeImage(img, 100, 100);
+                        thumbnail = img.GetThumbnailImage(64, 64, null, IntPtr.Zero);
+                    }
+                }
+                var res = ImageToByteArray(thumbnail);
+                this._identityRepository.saveProfilePicture(user.Id, res);
+            }
+            
+
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
+        }
+
+        //private async Task<byte[]> GetBytes(this IFormFile formFile)
+        //{
+        //    using (var memoryStream = new MemoryStream())
+        //    {
+        //        await formFile.CopyToAsync(memoryStream);
+        //        return memoryStream.ToArray();
+        //    }
+        //}
+
+        //public async Task<byte[]> ImageToByteArray(System.Drawing.Image imageIn)
+        //{
+        //    using (var ms = new MemoryStream())
+        //    {
+        //        imageIn.Save(ms, imageIn.RawFormat);
+        //        return ms.ToArray();
+        //    }
+        //}
+        public byte[] ImageToByteArray(System.Drawing.Image imageIn)
+        {
+            using (var ms = new MemoryStream())
+            {
+                imageIn.Save(ms, ImageFormat.Png);
+                return ms.ToArray();
+            }
+        }
+    }
+
+    public static class FormFileExtensions
+    {
+        public static async Task<byte[]> GetBytes(this IFormFile formFile)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                await formFile.CopyToAsync(memoryStream);
+                return memoryStream.ToArray();
+            }
         }
     }
 }
