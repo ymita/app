@@ -39,7 +39,7 @@ namespace App.Repositories
                 posts = await this._appDbContext.Posts.Where(p => p.OwnerId == user.Id).ToListAsync();
             }
             
-            return posts.OrderByDescending(x => x.PublishedDate).ToList();
+            return posts.OrderByDescending(x => x.UpdatedDate).ToList();
         }
 
         public async Task<Post> getPost(int id, string userName = null)
@@ -72,7 +72,7 @@ namespace App.Repositories
             } else {
                 posts = await this._appDbContext.Posts.Where(p => p.IsDraft == includesDraft).ToListAsync();
             }
-            return posts.OrderByDescending(x=>x.PublishedDate).ToList();
+            return posts.OrderByDescending(x=>x.UpdatedDate).ToList();
         }
 
         public async Task<List<PostTagCrossReference>> getPostsTagsReferencesAsync(string userId)
