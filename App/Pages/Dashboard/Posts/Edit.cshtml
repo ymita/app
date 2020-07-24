@@ -53,32 +53,44 @@
                     <a href="/@User.Identity.Name/@Model.Post.Id" target="_blank">記事を表示</a>
                 </div>
             </div>
-            <div class="form-group">
+
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox" onchange="toggleUpdatedDateVisibility();" /> 更新日を指定
+                </label>
+            </div>
+
+            <div class="form-group" style="display: none;">
                 <label asp-for="Post.PublishedDate" class="control-label"></label>
-                <input asp-for="Post.PublishedDate" class="form-control" />
-                <span asp-validation-for="Post.PublishedDate" class="text-danger"></span>
+                <input asp-for="Post.PublishedDate" class="form-control" type="hidden" />
+            </div>
+
+            <div class="form-group" id="updatedDateContainer" style="display: none;">
+                <label asp-for="Post.UpdatedDate" class="control-label"></label>
+                <input asp-for="Post.UpdatedDate" id="updatedDate" class="form-control" />
+                <span asp-validation-for="Post.UpdatedDate" class="text-danger"></span>
             </div>
             @*<div class="form-group">
-                    <label asp-for="@Model.Tags" class="control-label"></label>
-                    <input id="myInput" type="text" class="form-control" onkeyup="myFunction()"/>
-                    <ul id="myUL">
-                        @{
-                            if (Model.TagsInView != null && Model.TagsInView.Count > 0)
-                            {
-                                @for (var i = 0; i < Model.TagsInView.Count; i++)
-                                {
-                                    <li>
-                                        <input asp-for="@Model.TagsInView[i].IsSelected" />
-                                        <label asp-for="@Model.TagsInView[i].IsSelected">@Model.TagsInView[i].TagName</label>
-                                        <input type="hidden" asp-for="@Model.TagsInView[i].Id" />
-                                        <input type="hidden" asp-for="@Model.TagsInView[i].TagName" />
-                                    </li>
-                                }
-                            }
+            <label asp-for="@Model.Tags" class="control-label"></label>
+            <input id="myInput" type="text" class="form-control" onkeyup="myFunction()"/>
+            <ul id="myUL">
+                @{
+                    if (Model.TagsInView != null && Model.TagsInView.Count > 0)
+                    {
+                        @for (var i = 0; i < Model.TagsInView.Count; i++)
+                        {
+                            <li>
+                                <input asp-for="@Model.TagsInView[i].IsSelected" />
+                                <label asp-for="@Model.TagsInView[i].IsSelected">@Model.TagsInView[i].TagName</label>
+                                <input type="hidden" asp-for="@Model.TagsInView[i].Id" />
+                                <input type="hidden" asp-for="@Model.TagsInView[i].TagName" />
+                            </li>
                         }
-                        <li id="newTag" style="display: none;"></li>
-                    </ul>
-                </div>*@
+                    }
+                }
+                <li id="newTag" style="display: none;"></li>
+            </ul>
+        </div>*@
         </div>
     </form>
 </div>
@@ -95,7 +107,27 @@
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
     <script>
+        // エディタの初期化
         $('#summernote').summernote();
+
+        // 更新日の初期化
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = ('0' + (date.getMonth() + 1)).slice(-2);
+        var day = date.getDate();
+        var hour = ('0' + date.getHours()).slice(-2);
+        var minute = ('0' + date.getMinutes()).slice(-2);
+        var formattedDate = year + '-' + month + '-' + day + 'T' + hour + ':' + minute;
+        document.getElementById("updatedDate").value = formattedDate;
+
+        function toggleUpdatedDateVisibility() {
+            var container = document.getElementById("updatedDateContainer");
+            if (container.style.display === '') {
+                container.style.display = 'none';
+            } else {
+                container.style.display = '';
+            }
+        }
     </script>
 }
 <script>
