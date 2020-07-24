@@ -13,6 +13,7 @@ namespace App.Pages.User
     {
         private readonly IAppRepository _appRepository;
         public Post Post { get; set; }
+        public string UserName { get; set; }
 
         public PostDetailModel(IAppRepository appRepository)
         {
@@ -20,6 +21,7 @@ namespace App.Pages.User
         }
         public async Task<IActionResult> OnGet(string userName, int id)
         {
+            this.UserName = userName;
             try
             {
                 var post = await this._appRepository.getPost(id, userName);
