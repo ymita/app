@@ -17,6 +17,9 @@ namespace App.Models
         public string Description { get; set; }
         [DisplayName("投稿日")]
         public DateTime PublishedDate { get; set; }
+
+        [DisplayName("更新日")]
+        public DateTime UpdatedDate { get; set; }
         public string OwnerId { get; set; }
         [DisplayName("下書き")]
         public bool IsDraft { get; set; }

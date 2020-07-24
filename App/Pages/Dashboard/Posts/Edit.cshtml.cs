@@ -92,50 +92,6 @@ namespace App.Pages.Dashboard.Posts
             return Page();
         }
 
-        public async Task<IActionResult> OnPostNewAsync(int? id)
-        {
-            if (!id.HasValue && id != -1)
-            {
-                return RedirectToPage("./Index");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            // Post オブジェクトを保存
-
-            //これから編集する Post オブジェクトを用意
-            Post = new Post();
-            var userId = _userManager.GetUserId(User);
-            Post.OwnerId = userId;
-            Post.PublishedDate = DateTime.Now;
-            Post.IsDraft = true;
-
-            //これから編集する Tag コレクションを用意
-            Tags = new List<Tag>();
-
-            try
-            {
-                await _context.Posts.AddAsync(Post);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PostExists(Post.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            // ページ遷移
-            return Page();
-        }
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()

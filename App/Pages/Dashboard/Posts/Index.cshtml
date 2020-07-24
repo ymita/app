@@ -18,10 +18,13 @@
     <div class="col-md-9">
         <div class="row">
             <div class="col-md-12">
-                <form method="post">
+                @*<form method="post">
                     <input type="hidden" name="id" value="-1" />
                     <input type="submit" value="新規投稿" class="btn btn-primary mb-2" asp-page="Edit" asp-page-handler="New" />
-                </form>
+                </form>*@
+                <p>
+                    <a asp-page="Create"><input type="button" value="新規作成" class="btn btn-primary" /></a>
+                </p>
             </div>
             <div class="col-md-12">
                 @foreach (var item in Model.Posts)
