@@ -163,24 +163,40 @@
         }
     }
 
+    var newTagCount = 0;
+
     function onAddTag() {
         var ul = document.getElementById("myUL");
         var fragment = document.createDocumentFragment();
         var li = document.createElement('li');
+
+        // checkbox の生成
         var checkbox = document.createElement('input');
         checkbox.setAttribute('type','checkbox');
-        checkbox.setAttribute('name','name');
-        checkbox.setAttribute('id', 'name');
+        var newTagKey = 'newTag_' + newTagCount;
+        checkbox.setAttribute('name', newTagKey + "_IsSelected");
+        checkbox.setAttribute('id', newTagKey + "_IsSelected");
         checkbox.setAttribute('checked', 'checked');
         checkbox.value = true;
         li.appendChild(checkbox);
+        newTagCount = newTagCount + 1;
 
+        var labelText = document.getElementById("addTagLabel").textContent;
+        console.log(labelText);
+        // checkbox に対応する label の生成
         var label = document.createElement('label');
-        label.setAttribute('for', 'name');
-        var textNode = document.createTextNode(document.getElementById("addTagLabel").textContent);
+        label.setAttribute('for', newTagKey + "_IsSelected");
+        var textNode = document.createTextNode(labelText);
         label.appendChild(textNode);
         li.appendChild(label);
-        
+
+        // checkbox に対応する hidden フィールドの生成
+        var hidden = document.createElement('input');
+        hidden.setAttribute("type", "hidden");
+        hidden.setAttribute('name', newTagKey + "_TagName");
+        hidden.value = labelText;
+        li.appendChild(hidden);
+
         fragment.appendChild(li);
         ul.appendChild(fragment);
 

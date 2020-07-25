@@ -116,7 +116,7 @@ namespace App.Pages.Dashboard.Posts
             string sql = "SELECT Id, PostId, TagId from dbo.Posts_Tags_XREF WHERE PostId in (SELECT Id from dbo.Posts WHERE OwnerId = '" + userId + "') AND PostId = " + Post.Id;
             var postTags = this._context.PostsTagsCrossReferences.FromSqlRaw(sql).ToList();
             
-            // データベース上で、まだ Post に紐付いていないタグは追加対象とする
+            // ユーザーが既に利用しているが、まだこの Post には紐付いていないタグは追加対象とする
             foreach (var item in selectedTagsInView)
             {
                 Tag tag = new Tag() { Id = item.Id, TagName = item.TagName };
@@ -126,7 +126,7 @@ namespace App.Pages.Dashboard.Posts
                     this._context.PostsTagsCrossReferences.Add(ptxref);
                 }
             }
-
+            
             // データベース上で PostsTagsRelation テーブルで Post に紐付いているタグは削除する
             var unselectedTags = TagsInView.Where(x => x.IsSelected == false).ToList();
             foreach (var item in unselectedTags)
@@ -139,6 +139,35 @@ namespace App.Pages.Dashboard.Posts
                 }
             }
             // TO DO: どの Post とも紐付いていないタグは Tags テーブルから削除する => コミットする。
+
+            // TO DO: //Request.Form.ToList()
+            var newlyCreatedTags = Request.Form.Where(x => x.Key.Contains("newTag")).ToList();
+            int newlyCreatedTagsCount = int.Parse(newlyCreatedTags.Last().Key.Split("_")[1]);
+
+            for(int i = 0; i <= newlyCreatedTagsCount; i++)
+            {
+                var newlyCreatedTagPair = newlyCreatedTags.Where(x=>x.Key.StartsWith("newTag_" + i)).ToList();
+                if(newlyCreatedTagPair.Count == 2)
+                {
+                    if(
+                        newlyCreatedTagPair[0].Key == "newTag_" + i + "_IsSelected"
+                        &&
+                        newlyCreatedTagPair[1].Key == "newTag_" + i + "_TagName"
+                        )
+                    {
+                        // newlyCreatedTagPair[1].Value を新しいタグとして登録する。
+                        System.Diagnostics.Debug.WriteLine(newlyCreatedTagPair[1].Value);
+                        var tagName = newlyCreatedTagPair[1].Value.ToString();
+                        
+                        Tag tag = new Tag() { TagName = tagName };
+                        var res = this._context.Tags.Add(tag);
+
+                        await _context.SaveChangesAsync();
+                        var ptxref = new PostTagCrossReference() { PostId = Post.Id, TagId = res.Entity.Id };
+                        this._context.PostsTagsCrossReferences.Add(ptxref);
+                    }
+                }
+            }
 
             try
             {
