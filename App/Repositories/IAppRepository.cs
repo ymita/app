@@ -20,5 +20,6 @@ namespace App.Repositories
         Task<List<PostTagCrossReference>> getPostTagsReferencesByPostIdAsync(string userId, int postId);
 
         Task<List<Post>> getPostsByTag(string tag);
+
     }
 }

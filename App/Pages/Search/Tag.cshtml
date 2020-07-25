@@ -4,14 +4,24 @@
     ViewData["Title"] = "Tag";
 }
 
-<h1>Tag</h1>
+<h1>Tag: @Model.Tag</h1>
 
 @{
     if (Model.Posts != null)
     {
-        foreach (var post in Model.Posts)
+        for(int i = 0; i < Model.Posts.Count; i++)
         {
-            <div>@post.Title</div>
+            var post = Model.Posts[i];
+            <a href="/@Model.PostOwners[i]/@post.Id">
+                <div class="card">
+                    <div class="card-body" style="display: flex;">
+                        <div class="col-md-12">
+                            <h5 class="card-title">@Html.DisplayFor(modelItem => post.Title)</h5>
+                            <text>@Html.DisplayFor(modelItem => post.UpdatedDate)</text>
+                        </div>
+                    </div>
+                </div>
+            </a>
         }
     }
 }

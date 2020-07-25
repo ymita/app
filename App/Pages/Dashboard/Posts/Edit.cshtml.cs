@@ -105,20 +105,20 @@ namespace App.Pages.Dashboard.Posts
                 }
             }
             // TO DO: どの Post とも紐付いていないタグは Tags テーブルから削除する => コミットする。
-            StringBuilder sb = new StringBuilder();
-            sb.Append("DELETE FROM dbo.Tags ");
-            sb.Append("WHERE Id IN( ");
-            sb.Append("    SELECT Id from dbo.Tags");
-            sb.Append("    WHERE Id NOT IN(");
-            sb.Append("        SELECT TagId from dbo.Posts_Tags_XREF");
-            sb.Append("        WHERE PostId IN (");
-            sb.Append("            SELECT Id from dbo.Posts");
-            sb.Append("            ");
-            sb.Append("            WHERE OwnerId = '" + userId +"'");
-            sb.Append("        )");
-            sb.Append("    )");
-            sb.Append(")");
-            this._context.Database.ExecuteSqlRaw(sb.ToString());
+            //StringBuilder sb = new StringBuilder();
+            //sb.Append("DELETE FROM dbo.Tags ");
+            //sb.Append("WHERE Id IN( ");
+            //sb.Append("    SELECT Id from dbo.Tags");
+            //sb.Append("    WHERE Id NOT IN(");
+            //sb.Append("        SELECT TagId from dbo.Posts_Tags_XREF");
+            //sb.Append("        WHERE PostId IN (");
+            //sb.Append("            SELECT Id from dbo.Posts");
+            //sb.Append("            ");
+            //sb.Append("            WHERE OwnerId = '" + userId +"'");
+            //sb.Append("        )");
+            //sb.Append("    )");
+            //sb.Append(")");
+            //this._context.Database.ExecuteSqlRaw(sb.ToString());
 
             // TO DO: //Request.Form.ToList()
             var newlyCreatedTags = Request.Form.Where(x => x.Key.Contains("newTag")).ToList();
@@ -208,6 +208,10 @@ namespace App.Pages.Dashboard.Posts
             }
 
             // View に表示するタグ一覧(選択/未選択状態を含めて)を構築する。
+            //if(visibleTags.Count > 0) {
+            //    return null;
+            //}
+
             var tagsInView = visibleTags.ConvertAll(x => new TagInView()
             {
                 Id = x.Id,
