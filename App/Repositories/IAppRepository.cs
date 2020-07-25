@@ -18,5 +18,7 @@ namespace App.Repositories
         Task<List<PostTagCrossReference>> getPostsTagsReferencesAsync(string userId);
 
         Task<List<PostTagCrossReference>> getPostTagsReferencesByPostIdAsync(string userId, int postId);
+
+        Task<List<Post>> getPostsByTag(string tag);
     }
 }

@@ -1,0 +1,17 @@
+﻿@page "/tag/{tag}"
+@model App.Pages.Search.TagModel
+@{
+    ViewData["Title"] = "Tag";
+}
+
+<h1>Tag</h1>
+
+@{
+    if (Model.Posts != null)
+    {
+        foreach (var post in Model.Posts)
+        {
+            <div>@post.Title</div>
+        }
+    }
+}

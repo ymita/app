@@ -24,9 +24,9 @@
         {
             foreach (var tag in Model.Tags)
             {
-                <span class="badge badge-pill badge-primary">
+                <a href="/tag/@tag.TagName" class="badge badge-pill badge-primary">
                     @tag.TagName
-                </span>
+                </a>
             }
 
         }

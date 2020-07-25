@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web.Http;
 using System.Security.Claims;
+using System.Text;
 
 namespace App.Repositories
 {
@@ -93,6 +94,20 @@ namespace App.Repositories
         {
             var sql = "SELECT * from dbo.Tags WHERE Id IN(SELECT TagId from dbo.Posts_Tags_XREF WHERE PostId = " + postId + ")";
             return await this._appDbContext.Tags.FromSqlRaw(sql).ToListAsync();
+        }
+
+        public async Task<List<Post>> getPostsByTag(string tag)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("SELECT * from dbo.Posts");
+            sb.Append(" WHERE Id IN (");
+            sb.Append("	SELECT PostId from dbo.Posts_Tags_XREF, dbo.Posts");
+            sb.Append("	WHERE dbo.Posts_Tags_XREF.PostId = Posts.Id AND TagId = ");
+            sb.Append("		(");
+            sb.Append("			SELECT Id from dbo.Tags WHERE TagName = '" + tag +"'");
+            sb.Append("		)");
+            sb.Append(");");
+            return await this._appDbContext.Posts.FromSqlRaw(sb.ToString()).ToListAsync();
         }
     }
 }
