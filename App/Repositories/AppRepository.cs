@@ -17,17 +17,11 @@ namespace App.Repositories
         public IAppDbContext _appDbContext { get; set; }
         public IIdentityRepository _identityRepository { get; set; }
 
-
         public AppRepository(IAppDbContext appDbContext, IIdentityRepository identityRepository)
         {
             this._appDbContext = appDbContext;
             this._identityRepository = identityRepository;
         }
-
-        //public async Task<List<Post>> GetPosts(string userName)
-        //{
-        //    return await this._appDbContext.Posts.ToListAsync();
-        //}
 
         public async Task<List<Post>> getPostsByUserAsync(string userName)
         {
@@ -81,7 +75,6 @@ namespace App.Repositories
             string sql = "SELECT Id, PostId, TagId from dbo.Posts_Tags_XREF WHERE PostId in (SELECT Id from dbo.Posts WHERE OwnerId = '" + userId + "')";
             var visiblePostsTagsCrossReferences = await this._appDbContext.PostsTagsCrossReferences.FromSqlRaw(sql).ToListAsync();
             return visiblePostsTagsCrossReferences.GroupBy(x => x.TagId).Select(g => g.First()).ToList();
-            //return await this._appDbContext.PostsTagsCrossReferences.FromSqlRaw(sql).ToListAsync();
         }
 
         public async Task<List<PostTagCrossReference>> getPostTagsReferencesByPostIdAsync(string userId, int postId)
