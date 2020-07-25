@@ -32,7 +32,7 @@ namespace App.Pages
             for(int i = 0; i < Posts.Count; i++)
             {
                 var ownerId = Posts[i].OwnerId;
-                var userName = _identityRepository.getUserNameById(ownerId);
+                var userName = await _identityRepository.getUserNameByIdAsync(ownerId);
                 Owners.Add(userName);
             }
         }

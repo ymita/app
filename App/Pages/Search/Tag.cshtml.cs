@@ -36,7 +36,7 @@ namespace App.Pages.Search
 
             for (int i = 0; i < this.Posts.Count; i++) { 
                 var post = this.Posts[i];
-                var userName = this._identityRepository.getUserNameById(post.OwnerId);
+                var userName = await this._identityRepository.getUserNameByIdAsync(post.OwnerId);
                 this.PostOwners.Add(userName);
             }
         }

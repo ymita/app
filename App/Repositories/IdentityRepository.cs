@@ -28,13 +28,14 @@ namespace App.Repositories
             return user;
         }
 
-        public string getUserNameById(string userId)
+        public async Task<string> getUserNameByIdAsync(string userId)
         {
             if (string.IsNullOrEmpty(userId))
             {
                 throw new InvalidOperationException("User name is not provided");
             }
-            return this._identityDbContext.Users.Find(userId).UserName;
+            var user = await this._identityDbContext.Users.FindAsync(userId);
+            return user.UserName;
         }
 
         public async Task saveProfilePicture(string userId, Task<byte[]> picture)

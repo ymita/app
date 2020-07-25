@@ -10,7 +10,7 @@ namespace App.Repositories
     {
         IdentityUser getUserByName(string userName);
 
-        string getUserNameById(string userId);
+        Task<string> getUserNameByIdAsync(string userId);
 
         Task saveProfilePicture(string userId, Task<byte[]> picture);
 
