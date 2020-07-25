@@ -14,6 +14,7 @@ namespace App.Pages.User
         private readonly IAppRepository _appRepository;
         public Post Post { get; set; }
         public string UserName { get; set; }
+        public List<Tag> Tags { get; set; }
 
         public PostDetailModel(IAppRepository appRepository)
         {
@@ -29,7 +30,13 @@ namespace App.Pages.User
                 {
                     return NotFound();
                 }
+                
+                // Post の取得
                 this.Post = post;
+
+                // Post に紐づく Tags の取得
+                this.Tags = await this._appRepository.getTags(id);
+
             }
             catch (Exception hrex)
             {
