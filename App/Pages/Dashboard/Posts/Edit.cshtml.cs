@@ -34,10 +34,8 @@ namespace App.Pages.Dashboard.Posts
         public Post Post { get; set; }
         [DisplayName("タグ")]
         public List<Tag> Tags { get; set; }
-        //[BindProperty]
-        //public List<TagInView> NewTagsInView { get; set; } = new List<TagInView>();
         [BindProperty]
-        public List<TagInView> TagsInView { get; set; } = new List<TagInView>();/* TagsInView は新たに Post に紐づく Tags */
+        public List<TagInView> TagsInView { get; set; } = new List<TagInView>();
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -51,41 +49,8 @@ namespace App.Pages.Dashboard.Posts
             var posts = await _appRepository.getPostsByUserAsync(userName);
             Post = posts.Find(x => x.Id == id);
 
-            //var userId = _userManager.GetUserId(User);
-
-            //// 現在ユーザーの全ての Post と、対応する Tag の関係表を取得する
-            //var visiblePostsTagsCrossReferences = 
-            //    await _appRepository.getPostsTagsReferencesAsync(userId);
-
-            //// 現在の Post と、対応する Tag の関係表を取得する
-            //var currentPostTags = 
-            //    await _appRepository.getPostTagsReferencesByPostIdAsync(userId, Post.Id);
-
-            // 現在ユーザーの全ての Post と、対応する Tag の関係表から、
-            // 現在ユーザーが使ったことのある Tag リストを構築する。
-            //var visibleTags = new List<Tag>();
-            //foreach(var item in visiblePostsTagsCrossReferences)
-            //{
-            //    visibleTags.Add(
-            //        this._context.Tags.Where(x => x.Id == item.TagId).FirstOrDefault()
-            //    );
-            //}
-
-            //// 現在の Post に対応する Tag の ID をリストとして構築する。
-            //List<int> currentPostTagIDs = new List<int>();
-            //foreach(var tag in currentPostTags)
-            //{
-            //    currentPostTagIDs.Add(tag.TagId);
-            //}
-
             // View に表示するタグ一覧(選択/未選択状態を含めて)を構築する。
             this.TagsInView = await this.getTagsInView();
-            //// View に表示するタグ一覧(選択/未選択状態を含めて)を構築する。
-            //this.TagsInView = visibleTags.ConvertAll(x => new TagInView() {
-            //                        Id = x.Id,
-            //                        TagName = x.TagName,
-            //                        IsSelected = currentPostTagIDs.Contains(x.Id)
-            //                    }).ToList();
 
             if (Post == null)
             {
