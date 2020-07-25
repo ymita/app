@@ -11,6 +11,7 @@ using App.Models;
 using Microsoft.AspNetCore.Identity;
 using App.Repositories;
 using System.ComponentModel;
+using System.Text;
 
 namespace App.Pages.Dashboard.Posts
 {
@@ -139,32 +140,49 @@ namespace App.Pages.Dashboard.Posts
                 }
             }
             // TO DO: どの Post とも紐付いていないタグは Tags テーブルから削除する => コミットする。
+            StringBuilder sb = new StringBuilder();
+            sb.Append("DELETE FROM dbo.Tags ");
+            sb.Append("WHERE Id IN( ");
+            sb.Append("    SELECT Id from dbo.Tags");
+            sb.Append("    WHERE Id NOT IN(");
+            sb.Append("        SELECT TagId from dbo.Posts_Tags_XREF");
+            sb.Append("        WHERE PostId IN (");
+            sb.Append("            SELECT Id from dbo.Posts");
+            sb.Append("            ");
+            sb.Append("            WHERE OwnerId = '" + userId +"'");
+            sb.Append("        )");
+            sb.Append("    )");
+            sb.Append(")");
+            this._context.Database.ExecuteSqlRaw(sb.ToString());
 
             // TO DO: //Request.Form.ToList()
             var newlyCreatedTags = Request.Form.Where(x => x.Key.Contains("newTag")).ToList();
-            int newlyCreatedTagsCount = int.Parse(newlyCreatedTags.Last().Key.Split("_")[1]);
-
-            for(int i = 0; i <= newlyCreatedTagsCount; i++)
+            if(newlyCreatedTags.Count > 0)
             {
-                var newlyCreatedTagPair = newlyCreatedTags.Where(x=>x.Key.StartsWith("newTag_" + i)).ToList();
-                if(newlyCreatedTagPair.Count == 2)
-                {
-                    if(
-                        newlyCreatedTagPair[0].Key == "newTag_" + i + "_IsSelected"
-                        &&
-                        newlyCreatedTagPair[1].Key == "newTag_" + i + "_TagName"
-                        )
-                    {
-                        // newlyCreatedTagPair[1].Value を新しいタグとして登録する。
-                        System.Diagnostics.Debug.WriteLine(newlyCreatedTagPair[1].Value);
-                        var tagName = newlyCreatedTagPair[1].Value.ToString();
-                        
-                        Tag tag = new Tag() { TagName = tagName };
-                        var res = this._context.Tags.Add(tag);
+                int newlyCreatedTagsCount = int.Parse(newlyCreatedTags.Last().Key.Split("_")[1]);
 
-                        await _context.SaveChangesAsync();
-                        var ptxref = new PostTagCrossReference() { PostId = Post.Id, TagId = res.Entity.Id };
-                        this._context.PostsTagsCrossReferences.Add(ptxref);
+                for (int i = 0; i <= newlyCreatedTagsCount; i++)
+                {
+                    var newlyCreatedTagPair = newlyCreatedTags.Where(x => x.Key.StartsWith("newTag_" + i)).ToList();
+                    if (newlyCreatedTagPair.Count == 2)
+                    {
+                        if (
+                            newlyCreatedTagPair[0].Key == "newTag_" + i + "_IsSelected"
+                            &&
+                            newlyCreatedTagPair[1].Key == "newTag_" + i + "_TagName"
+                            )
+                        {
+                            // newlyCreatedTagPair[1].Value を新しいタグとして登録する。
+                            System.Diagnostics.Debug.WriteLine(newlyCreatedTagPair[1].Value);
+                            var tagName = newlyCreatedTagPair[1].Value.ToString();
+
+                            Tag tag = new Tag() { TagName = tagName };
+                            var res = this._context.Tags.Add(tag);
+
+                            await _context.SaveChangesAsync();
+                            var ptxref = new PostTagCrossReference() { PostId = Post.Id, TagId = res.Entity.Id };
+                            this._context.PostsTagsCrossReferences.Add(ptxref);
+                        }
                     }
                 }
             }
