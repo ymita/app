@@ -100,7 +100,10 @@ namespace App.Repositories
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("SELECT * from dbo.Posts");
-            sb.Append(" WHERE Id IN (");
+            sb.Append(" WHERE");
+            sb.Append(" IsDraft = 0 ");
+            sb.Append(" AND ");
+            sb.Append(" Id IN (");
             sb.Append("	SELECT PostId from dbo.Posts_Tags_XREF, dbo.Posts");
             sb.Append("	WHERE dbo.Posts_Tags_XREF.PostId = Posts.Id AND TagId = ");
             sb.Append("		(");
