@@ -46,12 +46,11 @@ namespace App.Repositories
             {
                 this._identityDbContext.ProfilePictures.Remove(profilePicture);
             }
-            //if (profilePicture == null)
-            //{
+
             this._identityDbContext.ProfilePictures.Add(
                 new ProfilePicture { UserId = userId, Picture = result }
             );
-            //}
+            
             await this._identityDbContext.SaveChangesAsync();
 
             return;
