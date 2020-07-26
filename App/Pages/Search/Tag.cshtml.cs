@@ -13,7 +13,6 @@ namespace App.Pages.Search
     public class TagModel : PageModel
     {
         private readonly IAppRepository _appRepository;
-        private readonly UserManager<IdentityUser> _userManager;
         private readonly IIdentityRepository _identityRepository;
 
         public List<Post> Posts { get; set; }
@@ -24,7 +23,6 @@ namespace App.Pages.Search
             IIdentityRepository identityRepository)
         {
             this._appRepository = appRepository;
-            this._userManager = userManager;
             this._identityRepository = identityRepository;
         }
         public async Task OnGet(string tag)
