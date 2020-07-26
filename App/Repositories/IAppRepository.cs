@@ -10,7 +10,7 @@ namespace App.Repositories
     {
         Task<List<Post>> getPostsByUserAsync(string userName);
 
-        Task<Post> getPost(int id, string userName = null);
+        Task<Post> getPostAsync(int id, string userName = null);
 
         Task<List<Post>> getAllPosts(bool includesDraft = false);
         Task<List<Tag>> getTags(int postId);

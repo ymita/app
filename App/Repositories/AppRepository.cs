@@ -37,7 +37,7 @@ namespace App.Repositories
             return posts.OrderByDescending(x => x.UpdatedDate).ToList();
         }
 
-        public async Task<Post> getPost(int id, string userName = null)
+        public async Task<Post> getPostAsync(int id, string userName = null)
         {
             Post post;
             if(userName == null)

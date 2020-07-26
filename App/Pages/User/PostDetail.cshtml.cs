@@ -25,7 +25,7 @@ namespace App.Pages.User
             this.UserName = userName;
             try
             {
-                var post = await this._appRepository.getPost(id, userName);
+                var post = await this._appRepository.getPostAsync(id, userName);
                 if (post.IsDraft)
                 {
                     return NotFound();
