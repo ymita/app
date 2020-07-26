@@ -222,9 +222,4 @@ namespace App.Pages.Dashboard.Posts
             return tagsInView;
         }
     }
-
-    public class TagInView : Tag
-    {
-        public bool IsSelected { get; set; }
-    }
 }
