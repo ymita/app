@@ -14,13 +14,10 @@ namespace App.Pages.Dashboard.Posts
 {
     public class IndexModel : PageModel
     {
-        private readonly App.Data.AppDbContext _context;
         private readonly IAppRepository _appResository;
 
-        public IndexModel(App.Data.AppDbContext context,
-            IAppRepository appRepository)
+        public IndexModel(IAppRepository appRepository)
         {
-            _context = context;
             this._appResository = appRepository;
         }
 
