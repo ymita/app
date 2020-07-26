@@ -12,7 +12,7 @@ namespace App.Repositories
 
         Task<Post> getPostAsync(int id, string userName = null);
 
-        Task<List<Post>> getAllPosts(bool includesDraft = false);
+        Task<List<Post>> getAllPostsAsync(bool includesDraft = false);
         Task<List<Tag>> getTags(int postId);
 
         Task<List<PostTagCrossReference>> getPostsTagsReferencesAsync(string userId);

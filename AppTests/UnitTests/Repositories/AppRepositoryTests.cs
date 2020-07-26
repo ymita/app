@@ -26,10 +26,10 @@ namespace AppTests.UnitTests.Repositories
                 },
             };
 
-            mockAppRepository.Setup(x => x.getAllPosts(false)).Returns(Task.FromResult(posts));
+            mockAppRepository.Setup(x => x.getAllPostsAsync(false)).Returns(Task.FromResult(posts));
 
             //Act
-            var fetchedPosts = await mockAppRepository.Object.getAllPosts(false);
+            var fetchedPosts = await mockAppRepository.Object.getAllPostsAsync(false);
 
             //Assert
             Assert.NotNull(fetchedPosts);

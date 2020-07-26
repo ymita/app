@@ -58,7 +58,7 @@ namespace App.Repositories
             return post;
         }
 
-        public async Task<List<Post>> getAllPosts(bool includesDraft = false)
+        public async Task<List<Post>> getAllPostsAsync(bool includesDraft = false)
         {
             List<Post> posts;
             if (includesDraft == true)

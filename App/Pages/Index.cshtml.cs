@@ -28,7 +28,7 @@ namespace App.Pages
 
         public async Task OnGet()
         {
-            Posts = await _appRepository.getAllPosts();
+            Posts = await _appRepository.getAllPostsAsync();
             for(int i = 0; i < Posts.Count; i++)
             {
                 var ownerId = Posts[i].OwnerId;
