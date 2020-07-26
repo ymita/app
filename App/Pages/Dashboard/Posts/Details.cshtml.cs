@@ -7,16 +7,17 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using App.Data;
 using App.Models;
+using App.Repositories;
 
 namespace App.Pages.Dashboard.Posts
 {
     public class DetailsModel : PageModel
     {
-        private readonly App.Data.AppDbContext _context;
+        private readonly IAppRepository _appRepository;
 
-        public DetailsModel(App.Data.AppDbContext context)
+        public DetailsModel(IAppRepository appRepository)
         {
-            _context = context;
+            this._appRepository = appRepository;
         }
 
         public Post Post { get; set; }
@@ -28,7 +29,7 @@ namespace App.Pages.Dashboard.Posts
                 return NotFound();
             }
 
-            Post = await _context.Posts.FirstOrDefaultAsync(m => m.Id == id);
+            Post = await this._appRepository.getPostAsync(id.Value);
 
             if (Post == null)
             {
