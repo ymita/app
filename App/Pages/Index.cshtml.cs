@@ -16,6 +16,7 @@ namespace App.Pages
         private readonly IIdentityRepository _identityRepository;
         private readonly IAppRepository _appRepository;
         public List<Post> Posts { get; set; }
+        public List<Tag> Tags { get; set; }
         public List<string> Owners { get; set; } = new List<string>();
         public IndexModel(ILogger<IndexModel> logger,
             IIdentityRepository identityRepository,
@@ -35,6 +36,7 @@ namespace App.Pages
                 var userName = await _identityRepository.getUserNameByIdAsync(ownerId);
                 Owners.Add(userName);
             }
+            this.Tags = await this._appRepository.getAllTagsAsync();
         }
     }
 }

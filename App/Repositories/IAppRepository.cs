@@ -14,7 +14,7 @@ namespace App.Repositories
 
         Task<List<Post>> getAllPostsAsync(bool includesDraft = false);
         Task<List<Tag>> getTagsAsync(int postId);
-
+        Task<List<Tag>> getAllTagsAsync();
         Task<List<PostTagCrossReference>> getPostsTagsReferencesAsync(string userId);
 
         Task<List<PostTagCrossReference>> getPostTagsReferencesByPostIdAsync(string userId, int postId);

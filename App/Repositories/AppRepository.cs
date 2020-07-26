@@ -95,6 +95,11 @@ namespace App.Repositories
             return await this._appDbContext.Tags.FromSqlRaw(sql).ToListAsync();
         }
 
+        public async Task<List<Tag>> getAllTagsAsync()
+        {
+            return await this._appDbContext.Tags.ToListAsync();
+        }
+
         public async Task<List<Post>> getPostsByTagAsync(string tag)
         {
             StringBuilder sb = new StringBuilder();
