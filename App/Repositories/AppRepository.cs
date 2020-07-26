@@ -97,7 +97,31 @@ namespace App.Repositories
 
         public async Task<List<Tag>> getAllTagsAsync()
         {
-            return await this._appDbContext.Tags.ToListAsync();
+            var tags = await this._appDbContext.Tags.ToListAsync();
+            var rels = await this._appDbContext.PostsTagsCrossReferences.ToListAsync();
+
+            var notMatchedTags = new List<Tag>();
+            foreach (var tag in tags)
+            {
+                //タグがどのリレーションにもない or どの公開記事にも紐付いていない場合、
+                //タグクラウドの表示対象からはずす。
+                var tagInRel = rels.Where(rel => rel.TagId == tag.Id).FirstOrDefault();
+
+                if (tagInRel == null)
+                {
+                    notMatchedTags.Add(tag);
+                } else
+                {
+                    var post = await this.getPostAsync(tagInRel.PostId);
+
+                    if(post.IsDraft)
+                    {
+                        notMatchedTags.Add(tag);
+                    }
+                }
+            }
+            //Ref: https://stackoverflow.com/questions/15540891/filter-linq-except-on-properties
+            return await this._appDbContext.Tags.Where(x => !notMatchedTags.Contains(x)).ToListAsync();
         }
 
         public async Task<List<Post>> getPostsByTagAsync(string tag)
