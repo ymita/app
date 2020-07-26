@@ -10,7 +10,6 @@ namespace App.Models
     {
         [Key]
         public int Id { get; set; }
-        //public int PostId { get; set; }
         public string TagName { get; set; }
 
     }
