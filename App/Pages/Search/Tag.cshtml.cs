@@ -29,7 +29,7 @@ namespace App.Pages.Search
         {
             this.Tag = tag;
 
-            var posts = await this._appRepository.getPostsByTag(tag);
+            var posts = await this._appRepository.getPostsByTagAsync(tag);
             this.Posts = posts;
 
             for (int i = 0; i < this.Posts.Count; i++) { 

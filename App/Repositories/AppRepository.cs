@@ -89,7 +89,7 @@ namespace App.Repositories
             return await this._appDbContext.Tags.FromSqlRaw(sql).ToListAsync();
         }
 
-        public async Task<List<Post>> getPostsByTag(string tag)
+        public async Task<List<Post>> getPostsByTagAsync(string tag)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("SELECT * from dbo.Posts");
