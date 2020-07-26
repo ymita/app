@@ -83,7 +83,7 @@ namespace App.Repositories
             return await this._appDbContext.PostsTagsCrossReferences.FromSqlRaw(sql).ToListAsync();
         }
 
-        public async Task<List<Tag>> getTags(int postId)
+        public async Task<List<Tag>> getTagsAsync(int postId)
         {
             var sql = "SELECT * from dbo.Tags WHERE Id IN(SELECT TagId from dbo.Posts_Tags_XREF WHERE PostId = " + postId + ")";
             return await this._appDbContext.Tags.FromSqlRaw(sql).ToListAsync();

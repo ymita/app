@@ -35,7 +35,7 @@ namespace App.Pages.User
                 this.Post = post;
 
                 // Post に紐づく Tags の取得
-                this.Tags = await this._appRepository.getTags(id);
+                this.Tags = await this._appRepository.getTagsAsync(id);
 
             }
             catch (Exception hrex)
