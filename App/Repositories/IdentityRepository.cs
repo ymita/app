@@ -38,7 +38,7 @@ namespace App.Repositories
             return user.UserName;
         }
 
-        public async Task saveProfilePicture(string userId, Task<byte[]> picture)
+        public async Task saveProfilePictureAsync(string userId, Task<byte[]> picture)
         {
             var result = picture.Result;
             var profilePicture = this._identityDbContext.ProfilePictures.Where(x => x.UserId == userId).FirstOrDefault();

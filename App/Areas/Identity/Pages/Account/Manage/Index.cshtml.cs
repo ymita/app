@@ -129,7 +129,7 @@ namespace App.Areas.Identity.Pages.Account.Manage
                     }
                 }
                 var res = ImageToByteArray(thumbnail);
-                await this._identityRepository.saveProfilePicture(user.Id, res);
+                await this._identityRepository.saveProfilePictureAsync(user.Id, res);
             }
             
 
