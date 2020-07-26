@@ -9,25 +9,32 @@ using System.Net;
 using System.Web.Http;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
 
 namespace App.Repositories
 {
     public class AppRepository : IAppRepository
     {
+        private readonly UserManager<IdentityUser> _userManager;
+
         public IAppDbContext _appDbContext { get; set; }
         public IIdentityRepository _identityRepository { get; set; }
 
-        public AppRepository(IAppDbContext appDbContext, IIdentityRepository identityRepository)
+        public AppRepository(
+            IAppDbContext appDbContext,
+            IIdentityRepository identityRepository,
+            UserManager<IdentityUser> userManager)
         {
             this._appDbContext = appDbContext;
             this._identityRepository = identityRepository;
+            this._userManager = userManager;
         }
 
         public async Task<List<Post>> getPostsByUserAsync(string userName)
         {
             List<Post> posts = null;
 
-            var user = this._identityRepository.getUserByName(userName);
+            var user = await _userManager.FindByNameAsync(userName);
             
             if (user != null)
             {
@@ -45,8 +52,7 @@ namespace App.Repositories
                 post = await this._appDbContext.Posts.Where(p => p.Id == id).FirstOrDefaultAsync();
             } else
             {
-                var owner = _identityRepository.getUserByName(userName);
-                
+                var owner = await _userManager.FindByNameAsync(userName);
                 if (owner == null)
                 {
                     throw new HttpResponseException(HttpStatusCode.NotFound);

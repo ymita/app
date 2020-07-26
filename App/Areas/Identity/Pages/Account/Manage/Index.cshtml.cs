@@ -57,7 +57,7 @@ namespace App.Areas.Identity.Pages.Account.Manage
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             IFormFile avatar = null;
 
-            var source = _identityRepository.getProfilePicutre(user.Id);
+            var source = await _identityRepository.getProfilePicutreAsync(user.Id);
 
             Input = new InputModel
             {

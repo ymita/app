@@ -8,12 +8,11 @@ namespace App.Repositories
 {
     public interface IIdentityRepository
     {
-        IdentityUser getUserByName(string userName);
 
         Task<string> getUserNameByIdAsync(string userId);
 
         Task saveProfilePictureAsync(string userId, Task<byte[]> picture);
 
-        byte[] getProfilePicutre(string userId);
+        Task<byte[]> getProfilePicutreAsync(string userId);
     }
 }

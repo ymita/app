@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Microsoft.EntityFrameworkCore;
 namespace App.Repositories
 {
     public class IdentityRepository : IIdentityRepository
@@ -15,17 +15,6 @@ namespace App.Repositories
         public IdentityRepository(AppIdentityDbContext identityDbContext)
         {
             this._identityDbContext = identityDbContext;
-        }
-
-        public IdentityUser getUserByName(string userName)
-        {
-            if (string.IsNullOrEmpty(userName))
-            {
-                return null;
-            }
-
-            var user = this._identityDbContext.Users.Where(x => x.UserName == userName).FirstOrDefault();
-            return user;
         }
 
         public async Task<string> getUserNameByIdAsync(string userId)
@@ -56,9 +45,9 @@ namespace App.Repositories
             return;
         }
 
-        public byte[] getProfilePicutre(string userId)
+        public async Task<byte[]> getProfilePicutreAsync(string userId)
         {
-            var picture = this._identityDbContext.ProfilePictures.Where(x => x.UserId == userId).FirstOrDefault();
+            var picture = await this._identityDbContext.ProfilePictures.Where(x => x.UserId == userId).FirstOrDefaultAsync();
             if (picture == null)
             {
                 return null;
