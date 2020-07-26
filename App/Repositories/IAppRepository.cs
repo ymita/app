@@ -21,5 +21,6 @@ namespace App.Repositories
 
         Task<List<Post>> getPostsByTagAsync(string tag);
 
+        Task savePostAsync(Post post);
     }
 }

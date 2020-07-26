@@ -17,11 +17,11 @@ namespace App.Repositories
     {
         private readonly UserManager<IdentityUser> _userManager;
 
-        public IAppDbContext _appDbContext { get; set; }
+        public AppDbContext _appDbContext { get; set; }
         public IIdentityRepository _identityRepository { get; set; }
 
         public AppRepository(
-            IAppDbContext appDbContext,
+            AppDbContext appDbContext,
             IIdentityRepository identityRepository,
             UserManager<IdentityUser> userManager)
         {
@@ -110,6 +110,12 @@ namespace App.Repositories
             sb.Append("		)");
             sb.Append(");");
             return await this._appDbContext.Posts.FromSqlRaw(sb.ToString()).ToListAsync();
+        }
+
+        public async Task savePostAsync(Post post)
+        {
+            this._appDbContext.Posts.Add(post);
+            await this._appDbContext.SaveChangesAsync();
         }
     }
 }

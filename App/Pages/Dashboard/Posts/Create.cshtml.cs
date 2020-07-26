@@ -14,13 +14,14 @@ namespace App.Pages.Dashboard.Posts
 {
     public class CreateModel : PageModel
     {
-        private readonly App.Data.AppDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
-        public CreateModel(App.Data.AppDbContext context,
-            UserManager<IdentityUser> userManager)
+        private readonly IAppRepository _appRepository;
+
+        public CreateModel(UserManager<IdentityUser> userManager,
+            IAppRepository appRepository)
         {
-            _context = context;
             this._userManager = userManager;
+            this._appRepository = appRepository;
         }
 
         public IActionResult OnGet()
@@ -44,8 +45,7 @@ namespace App.Pages.Dashboard.Posts
                 return Page();
             }
 
-            _context.Posts.Add(Post);
-            await _context.SaveChangesAsync();
+            await this._appRepository.savePostAsync(Post);
 
             return RedirectToPage("./Index");
         }
