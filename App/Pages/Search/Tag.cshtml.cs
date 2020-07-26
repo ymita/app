@@ -19,7 +19,6 @@ namespace App.Pages.Search
         public List<string> PostOwners { get; set; } = new List<string>();
         public string Tag { get; set; }
         public TagModel(IAppRepository appRepository,
-            UserManager<IdentityUser> userManager,
             IIdentityRepository identityRepository)
         {
             this._appRepository = appRepository;
