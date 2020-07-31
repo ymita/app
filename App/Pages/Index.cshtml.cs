@@ -20,27 +20,18 @@ namespace App.Pages
 
         public IList<Post> Posts { get; set; }
         public List<Tag> Tags { get; set; }
-        public List<string> Owners { get; set; } = new List<string>();
+        public IList<string> Owners { get; set; } = new List<string>();
         public IndexModel(ILogger<IndexModel> logger,
-            IIdentityRepository identityRepository,
-            IAppRepository appRepository,
             IUserService userService)
         {
             _logger = logger;
-            _identityRepository = identityRepository;
-            _appRepository = appRepository;
             this._userService = userService;
         }
 
         public async Task OnGet()
         {
-            Posts = await this._userService.GetAllPostsAsync();
-            for(int i = 0; i < Posts.Count; i++)
-            {
-                var ownerId = Posts[i].OwnerId;
-                var userName = await _identityRepository.getUserNameByIdAsync(ownerId);
-                Owners.Add(userName);
-            }
+            this.Posts = await this._userService.GetAllPostsAsync();
+            this.Owners = await this._userService.GetOwnersAsync(this.Posts);
             this.Tags = await this._appRepository.getAllTagsAsync();
         }
     }

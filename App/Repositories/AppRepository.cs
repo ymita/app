@@ -66,7 +66,7 @@ namespace App.Repositories
 
         public async Task<List<Post>> getAllPostsAsync(bool includesDraft = false)
         {
-            List<Post> posts;
+            List<Post> posts = new List<Post>();
             if (includesDraft == true)
             {
                 posts = await this._appDbContext.Posts.ToListAsync();

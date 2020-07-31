@@ -33,6 +33,7 @@ namespace App.Pages.Search
 
             for (int i = 0; i < this.Posts.Count; i++) { 
                 var post = this.Posts[i];
+                // TO DO: getUserNameByIdAsync should be replaced with _userManager.FindByIdAsync(ownerId)(Ref: UserService.GetOwnersAsync)
                 var userName = await this._identityRepository.getUserNameByIdAsync(post.OwnerId);
                 this.PostOwners.Add(userName);
             }
