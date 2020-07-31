@@ -22,10 +22,12 @@ namespace App.Pages
         public List<Tag> Tags { get; set; }
         public IList<string> Owners { get; set; } = new List<string>();
         public IndexModel(ILogger<IndexModel> logger,
-            IUserService userService)
+            IUserService userService,
+            IAppRepository appRepository)
         {
             _logger = logger;
             this._userService = userService;
+            this._appRepository = appRepository;
         }
 
         public async Task OnGet()
